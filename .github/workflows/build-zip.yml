@@ -14,24 +14,18 @@ jobs:
       - name: "1. Checkout Code"
         uses: actions/checkout@v4
 
-      - name: "2. Flache ZIP bauen"
+      - name: "2. Ordner-Struktur bauen (Der WAHRE WBCE-Weg)"
         run: |
-          # Finde den Ordner, in dem die info.php liegt
-          INFO_PATH=$(find . -name "info.php" | head -n 1)
-          INFO_DIR=$(dirname "$INFO_PATH")
+          # 1. Den exakten Ordnernamen erstellen, den WBCE braucht
+          mkdir t26_genesis_boilerplate
           
-          echo "Gehe in Ordner: $INFO_DIR"
-          cd "$INFO_DIR"
+          # 2. Dateien reinkopieren (ohne Git-Kram und ohne sich selbst)
+          rsync -r --exclude='.git' --exclude='.github' --exclude='t26_genesis_boilerplate' ./ t26_genesis_boilerplate/
           
-          # Zippe den reinen Inhalt (.)
-          zip -r "$GITHUB_WORKSPACE/t26_genesis_boilerplate.zip" . -x "*.git*" -x "*.github*"
+          # 3. Wir zippen den ORDNER (Nicht flach!)
+          zip -r t26_genesis_boilerplate.zip t26_genesis_boilerplate/
 
-      - name: "3. Roentgenblick - ZIP-Inhalt pruefen"
-        run: |
-          echo "Das ist der exakte Inhalt der fertigen ZIP-Datei:"
-          unzip -l "$GITHUB_WORKSPACE/t26_genesis_boilerplate.zip"
-
-      - name: "4. ZIP an Release anhaengen"
+      - name: "3. ZIP an Release anhaengen"
         uses: softprops/action-gh-release@v2
         with:
           files: t26_genesis_boilerplate.zip
