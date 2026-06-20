@@ -1,9 +1,12 @@
 name: Build WBCE Module ZIP
+
 on:
   release:
     types: [published]
+
 permissions:
   contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,16 +14,10 @@ jobs:
       - name: 1. Checkout Code
         uses: actions/checkout@v4
 
-      - name: 2. Flache ZIP aus dem Modulordner bauen
+      - name: 2. Die absolut flache ZIP bauen
         run: |
-          # Direkt in den Modulordner wechseln (Pfad anpassen!)
-          cd t26_genesis_boilerplate
-
-          # Versteckte Dateien mit einbeziehen
-          shopt -s dotglob
-
-          # Inhalt OHNE umschließenden Ordner zippen
-          zip -r ../t26_genesis_boilerplate.zip *
+          # Der Stern (*) nimmt nur den nackten Inhalt des Repositories!
+          zip -r t26_genesis_boilerplate.zip * -x ".git/*" -x ".github/*"
 
       - name: 3. ZIP an Release anhängen
         uses: softprops/action-gh-release@v2
