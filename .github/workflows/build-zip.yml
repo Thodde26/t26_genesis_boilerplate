@@ -11,10 +11,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Checkout Code
+      - name: "1. Checkout Code"
         uses: actions/checkout@v4
 
-      - name: 2. Flache ZIP bauen
+      - name: "2. Flache ZIP bauen"
         run: |
           # Finde den Ordner, in dem die info.php liegt
           INFO_PATH=$(find . -name "info.php" | head -n 1)
@@ -26,12 +26,12 @@ jobs:
           # Zippe den reinen Inhalt (.)
           zip -r "$GITHUB_WORKSPACE/t26_genesis_boilerplate.zip" . -x "*.git*" -x "*.github*"
 
-      - name: 3. 🔍 RÖNTGENBLICK: ZIP-Inhalt prüfen
+      - name: "3. Roentgenblick - ZIP-Inhalt pruefen"
         run: |
           echo "Das ist der exakte Inhalt der fertigen ZIP-Datei:"
           unzip -l "$GITHUB_WORKSPACE/t26_genesis_boilerplate.zip"
 
-      - name: 4. ZIP an Release anhängen
+      - name: "4. ZIP an Release anhaengen"
         uses: softprops/action-gh-release@v2
         with:
           files: t26_genesis_boilerplate.zip
