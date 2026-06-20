@@ -1,0 +1,31 @@
+name: Build WBCE Module ZIP
+
+# Wann soll das Skript laufen? -> Immer, wenn du ein Release veröffentlichst
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 2. Perfekte Ordnerstruktur & ZIP vorbereiten
+        run: |
+          # Erstelle einen Ordner mit dem exakten Modul-Namen
+          mkdir t26_genesis_boilerplate
+
+          # Kopiere alle Dateien dorthin, ABER ignoriere Entwickler-Kram (.git, .github)
+          rsync -r --exclude='.git' --exclude='.github' --exclude='t26_genesis_boilerplate' ./ t26_genesis_boilerplate/
+
+          # Zippe den fertigen Ordner
+          zip -r t26_genesis_boilerplate.zip t26_genesis_boilerplate/
+
+      - name: 3. ZIP an das GitHub Release anhängen
+        uses: softprops/action-gh-release@v2
+        with:
+          files: t26_genesis_boilerplate.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
