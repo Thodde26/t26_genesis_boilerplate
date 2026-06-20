@@ -1,0 +1,14 @@
+/* T26 GENESIS Boilerplate - GENERATED CUSTOM DARK MODE */
+[data-t26-theme="custom_dark"] {
+  --t26-primary-base: #7a9bdb;
+  --t26-primary-hover: #244684;
+  --t26-bg-body: #121212;
+  --t26-bg-surface: #1a1a1a;
+  --t26-text-main: #e0e0e0;
+  --t26-text-muted: #aaaaaa;
+  --t26-border-color: #333333;
+  --t26-accent-color: #7a9bdb;
+}
+
+/* --- Custom Dark User CSS --- */
+/*TEST 2*/

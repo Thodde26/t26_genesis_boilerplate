@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1024" height="1024">
+  <defs>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="16" result="blur1" />
+      <feGaussianBlur stdDeviation="8" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#191a24" />
+      <stop offset="100%" stop-color="#0f1016" />
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" fill="#0c0d12" />
+
+  <g filter="url(#glow)">
+    <rect x="72" y="80" width="368" height="352" rx="8" fill="url(#bg-grad)" stroke="#ffb86c" stroke-width="8" />
+    <line x1="72" y1="136" x2="440" y2="136" stroke="#ffb86c" stroke-width="8" />
+    <rect x="96" y="100" width="16" height="16" rx="4" fill="#ffb86c" />
+    <rect x="128" y="100" width="16" height="16" rx="4" fill="#ffb86c" />
+    <rect x="160" y="100" width="16" height="16" rx="4" fill="#ffb86c" />
+    <path d="M 96 168 L 128 168 L 128 176 L 116 176 L 116 200 L 108 200 L 108 176 L 96 176 Z" fill="#ffb86c" />
+  </g>
+
+  <g stroke="#4a423b" stroke-width="16" stroke-linecap="round">
+    <line x1="160" y1="210" x2="352" y2="210" />
+    <line x1="160" y1="285" x2="352" y2="285" />
+    <line x1="160" y1="360" x2="352" y2="360" />
+  </g>
+  <g fill="#4a423b">
+    <circle cx="210" cy="210" r="28" />
+    <circle cx="300" cy="285" r="28" />
+    <circle cx="250" cy="360" r="28" />
+  </g>
+  <g fill="#5a5149">
+    <circle cx="210" cy="210" r="16" />
+    <circle cx="300" cy="285" r="16" />
+    <circle cx="250" cy="360" r="16" />
+  </g>
+</svg>
