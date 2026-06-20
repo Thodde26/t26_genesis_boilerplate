@@ -3,7 +3,6 @@ name: Build WBCE Module ZIP
 on:
   release:
     types: [published]
-  workflow_dispatch: 
 
 permissions:
   contents: write
@@ -12,28 +11,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: "1. Checkout Code"
+      - name: 1. Checkout Code
         uses: actions/checkout@v4
 
-      - name: "2. Ordner-Struktur bauen (Der WAHRE WBCE-Weg)"
+      - name: 2. Perfekte ZIP-Struktur bauen (WBCE Fix)
         run: |
-          # 1. Den exakten Ordnernamen erstellen, den WBCE braucht
+          # 1. Temporären Ordner erstellen
           mkdir t26_genesis_boilerplate
           
-          # 2. Dateien reinkopieren (ohne Git-Kram und ohne sich selbst)
+          # 2. Dateien reinkopieren (ohne GitHub-Müll)
           rsync -r --exclude='.git' --exclude='.github' --exclude='t26_genesis_boilerplate' ./ t26_genesis_boilerplate/
           
-          # 3. Wir zippen den ORDNER (Nicht flach!)
-          zip -r t26_genesis_boilerplate.zip t26_genesis_boilerplate/
+          # 3. 🔥 WBCE FIX: In den Ordner WECHSELN und den Inhalt "flach" zippen
+          cd t26_genesis_boilerplate
+          zip -r ../t26_genesis_boilerplate.zip .
+          cd ..
 
-      - name: "3. ZIP als Test-Download bereitstellen (Fuer manuellen Play-Button)"
-        uses: actions/upload-artifact@v4
-        with:
-          name: t26_genesis_boilerplate_test_zip
-          path: t26_genesis_boilerplate.zip
-
-      - name: "4. ZIP an Release anhaengen (NUR bei echtem Release)"
-        if: github.event_name == 'release'
+      - name: 3. ZIP an das GitHub Release anhängen
         uses: softprops/action-gh-release@v2
         with:
           files: t26_genesis_boilerplate.zip
