@@ -3,7 +3,7 @@ name: Build WBCE Module ZIP
 on:
   release:
     types: [published]
-  workflow_dispatch: # 🔥 Zwei Leerzeichen eingerückt! Gehört zu "on:"
+  workflow_dispatch: 
 
 permissions:
   contents: write
@@ -26,7 +26,14 @@ jobs:
           # 3. Wir zippen den ORDNER (Nicht flach!)
           zip -r t26_genesis_boilerplate.zip t26_genesis_boilerplate/
 
-      - name: "3. ZIP an Release anhaengen"
+      - name: "3. ZIP als Test-Download bereitstellen (Fuer manuellen Play-Button)"
+        uses: actions/upload-artifact@v4
+        with:
+          name: t26_genesis_boilerplate_test_zip
+          path: t26_genesis_boilerplate.zip
+
+      - name: "4. ZIP an Release anhaengen (NUR bei echtem Release)"
+        if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
           files: t26_genesis_boilerplate.zip
