@@ -16,9 +16,8 @@ jobs:
 
       - name: 2. Flache ZIP-Struktur bauen (Narrensicher)
         run: |
-          # Zippt den aktuellen Ordner (.) absolut flach!
-          # Schließt Git-Ordner aus, damit WBCE nicht meckert.
-          zip -r t26_genesis_boilerplate.zip . -x "*.git*" -x "*.github*"
+          # Zippt alles flach, aber ignoriert Git-Dateien UND die eigene ZIP-Datei!
+          zip -r t26_genesis_boilerplate.zip . -x "*.git*" -x "*.github*" -x "t26_genesis_boilerplate.zip"
 
       - name: 3. ZIP an das GitHub Release anhängen
         uses: softprops/action-gh-release@v2
