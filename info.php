@@ -16,7 +16,7 @@ if (!defined('WB_PATH')) {
 
 $module_directory   = 't26_genesis_boilerplate';
 $module_name        = 'T26 Genesis Boilerplate';
-$module_function    = 'Tool'; // Admin-Tool & Frontend-Funktionen
+$module_function    = 'tool'; // Admin-Tool & Frontend-Funktionen
 $module_version     = '1.2.0';
 $module_platform    = '1.6.x';
 $module_author      = 'Thodde26 (Thorsten)';
