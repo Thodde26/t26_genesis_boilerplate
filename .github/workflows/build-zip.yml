@@ -14,21 +14,24 @@ jobs:
       - name: 1. Checkout Code
         uses: actions/checkout@v4
 
-      - name: 2. Die magische, flache ZIP bauen (Findet info.php automatisch)
+      - name: 2. Flache ZIP bauen
         run: |
-          # 1. Wir suchen dynamisch, wo genau deine info.php liegt
+          # Finde den Ordner, in dem die info.php liegt
           INFO_PATH=$(find . -name "info.php" | head -n 1)
           INFO_DIR=$(dirname "$INFO_PATH")
           
-          echo "info.php gefunden in: $INFO_DIR"
-          
-          # 2. Wir wechseln EXAKT in diesen Ordner (egal wie tief er versteckt ist)
+          echo "Gehe in Ordner: $INFO_DIR"
           cd "$INFO_DIR"
           
-          # 3. Wir zippen nur den nackten Inhalt (*) und speichern die ZIP im Hauptverzeichnis
-          zip -r "$GITHUB_WORKSPACE/t26_genesis_boilerplate.zip" * -x "*.git*" -x "*.github*"
+          # Zippe den reinen Inhalt (.)
+          zip -r "$GITHUB_WORKSPACE/t26_genesis_boilerplate.zip" . -x "*.git*" -x "*.github*"
 
-      - name: 3. ZIP an Release anhängen
+      - name: 3. 🔍 RÖNTGENBLICK: ZIP-Inhalt prüfen
+        run: |
+          echo "Das ist der exakte Inhalt der fertigen ZIP-Datei:"
+          unzip -l "$GITHUB_WORKSPACE/t26_genesis_boilerplate.zip"
+
+      - name: 4. ZIP an Release anhängen
         uses: softprops/action-gh-release@v2
         with:
           files: t26_genesis_boilerplate.zip
