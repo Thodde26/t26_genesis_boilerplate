@@ -1,12 +1,9 @@
 name: Build WBCE Module ZIP
-
 on:
   release:
     types: [published]
-
 permissions:
   contents: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,23 +11,16 @@ jobs:
       - name: 1. Checkout Code
         uses: actions/checkout@v4
 
-      - name: 2. Die absolut flache ZIP bauen (WBCE Master-Fix)
+      - name: 2. Flache ZIP aus dem Modulordner bauen
         run: |
-          # 1. Wir bauen einen sauberen Quarantäne-Ordner
-          mkdir temp_build
-          rsync -a --exclude='.git' --exclude='.github' --exclude='temp_build' ./ temp_build/
-          
-          # 2. Wir gehen IN den Ordner
-          cd temp_build
-          
-          # 3. Wir zwingen Linux, auch versteckte Dateien zu sehen
+          # Direkt in den Modulordner wechseln (Pfad anpassen!)
+          cd t26_genesis_boilerplate
+
+          # Versteckte Dateien mit einbeziehen
           shopt -s dotglob
-          
-          # 4. Der Stern (*) ist der Trick! Er nimmt NUR Dateien, keinen Ordnerkontext.
+
+          # Inhalt OHNE umschließenden Ordner zippen
           zip -r ../t26_genesis_boilerplate.zip *
-          
-          # 5. Zurück ins Hauptverzeichnis
-          cd ..
 
       - name: 3. ZIP an Release anhängen
         uses: softprops/action-gh-release@v2
