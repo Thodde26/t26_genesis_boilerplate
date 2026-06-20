@@ -1,0 +1,833 @@
+/*!
+ * ========================================================================
+ * T26 GENESIS FRAMEWORK - THEME PRESETS (STRICT STANDARD)
+ * Beinhaltet 6 Light Mode & 6 Dark Mode Presets inkl. UI-Variablen
+ * ========================================================================
+ */
+
+/* ────────────────────────────────────────────────────────────────────────
+   1. LIGHT MODE PRESETS
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* --- 1. BLUE (LIGHT MODE) --- */
+[data-t26-theme="t26_blue_light"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #1a73e8;
+    --t26-primary-hover: #1557b0;
+    --t26-bg-body: #f8f9fa;
+    --t26-bg-surface: #ffffff;
+    --t26-text-main: #334155;
+    --t26-text-muted: #64748b;
+    --t26-border-color: #cbd5e0;
+    --t26-accent-color: #1a73e8;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #edf2f7;
+    --t26-bg-footer: #e2e8f0;
+    --t26-bg-overlay: rgba(255, 255, 255, 0.85);
+    --t26-border-hover: #94a3b8;
+    --t26-shadow-color: rgba(0, 0, 0, 0.08);
+    --t26-text-white: #0f172a;
+    --t26-text-invert: #ffffff;
+    --t26-btn-bg: #ffffff;
+    --t26-btn-border: #cbd5e0;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: light;
+    --t26-input-bg: #ffffff;
+    --t26-input-color: #334155;
+    --t26-input-border: #cbd5e0;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #f8d7da;
+    --t26-danger-text: #842029;
+    --t26-danger-border: #f5c2c7;
+    --t26-success-bg: #d1e7dd;
+    --t26-success-text: #0f5132;
+    --t26-success-border: #badbcc;
+    --t26-warning-bg: #fff3cd;
+    --t26-warning-text: #856404;
+    --t26-warning-border: #ffeeba;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+/* --- 2. ELEGANT GOLD (LIGHT MODE) --- */
+[data-t26-theme="t26_gold_light"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #d97706;
+    --t26-primary-hover: #b45309;
+    --t26-bg-body: #fffbeb;
+    --t26-bg-surface: #ffffff;
+    --t26-text-main: #334155;
+    --t26-text-muted: #64748b;
+    --t26-border-color: #fcd34d;
+    --t26-accent-color: #d97706;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #fef3c7;
+    --t26-bg-footer: #fde68a;
+    --t26-bg-overlay: rgba(255, 255, 255, 0.85);
+    --t26-border-hover: #fbbf24;
+    --t26-shadow-color: rgba(0, 0, 0, 0.08);
+    --t26-text-white: #451a03;
+    --t26-text-invert: #ffffff;
+    --t26-btn-bg: #ffffff;
+    --t26-btn-border: #fcd34d;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: light;
+    --t26-input-bg: #ffffff;
+    --t26-input-color: #334155;
+    --t26-input-border: #cbd5e0;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #f8d7da;
+    --t26-danger-text: #842029;
+    --t26-danger-border: #f5c2c7;
+    --t26-success-bg: #d1e7dd;
+    --t26-success-text: #0f5132;
+    --t26-success-border: #badbcc;
+    --t26-warning-bg: #fff3cd;
+    --t26-warning-text: #856404;
+    --t26-warning-border: #ffeeba;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+/* --- 3. CYBER MINT / GREEN (LIGHT MODE) --- */
+[data-t26-theme="t26_green_light"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #059669;
+    --t26-primary-hover: #047857;
+    --t26-bg-body: #f0fdf4;
+    --t26-bg-surface: #ffffff;
+    --t26-text-main: #334155;
+    --t26-text-muted: #64748b;
+    --t26-border-color: #86efac;
+    --t26-accent-color: #059669;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #dcfce7;
+    --t26-bg-footer: #bbf7d0;
+    --t26-bg-overlay: rgba(255, 255, 255, 0.85);
+    --t26-border-hover: #4ade80;
+    --t26-shadow-color: rgba(0, 0, 0, 0.08);
+    --t26-text-white: #064e3b;
+    --t26-text-invert: #ffffff;
+    --t26-btn-bg: #ffffff;
+    --t26-btn-border: #86efac;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: light;
+    --t26-input-bg: #ffffff;
+    --t26-input-color: #334155;
+    --t26-input-border: #cbd5e0;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #f8d7da;
+    --t26-danger-text: #842029;
+    --t26-danger-border: #f5c2c7;
+    --t26-success-bg: #d1e7dd;
+    --t26-success-text: #0f5132;
+    --t26-success-border: #badbcc;
+    --t26-warning-bg: #fff3cd;
+    --t26-warning-text: #856404;
+    --t26-warning-border: #ffeeba;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+/* --- 4. SOFT PURPLE / LILA (LIGHT MODE) --- */
+[data-t26-theme="t26_lila_light"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #8b5cf6;
+    --t26-primary-hover: #6d28d9;
+    --t26-bg-body: #f8fafc;
+    --t26-bg-surface: #ffffff;
+    --t26-text-main: #334155;
+    --t26-text-muted: #64748b;
+    --t26-border-color: #d8b4fe;
+    --t26-accent-color: #8b5cf6;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #f3e8ff;
+    --t26-bg-footer: #e9d5ff;
+    --t26-bg-overlay: rgba(255, 255, 255, 0.85);
+    --t26-border-hover: #c084fc;
+    --t26-shadow-color: rgba(0, 0, 0, 0.08);
+    --t26-text-white: #2e1065;
+    --t26-text-invert: #ffffff;
+    --t26-btn-bg: #ffffff;
+    --t26-btn-border: #d8b4fe;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: light;
+    --t26-input-bg: #ffffff;
+    --t26-input-color: #334155;
+    --t26-input-border: #cbd5e0;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #f8d7da;
+    --t26-danger-text: #842029;
+    --t26-danger-border: #f5c2c7;
+    --t26-success-bg: #d1e7dd;
+    --t26-success-text: #0f5132;
+    --t26-success-border: #badbcc;
+    --t26-warning-bg: #fff3cd;
+    --t26-warning-text: #856404;
+    --t26-warning-border: #ffeeba;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+/* --- 5. ORANGE (LIGHT MODE) --- */
+[data-t26-theme="t26_orange_light"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #f97316;
+    --t26-primary-hover: #c2410c;
+    --t26-bg-body: #f8f9fa;
+    --t26-bg-surface: #ffffff;
+    --t26-text-main: #334155;
+    --t26-text-muted: #64748b;
+    --t26-border-color: #cbd5e0;
+    --t26-accent-color: #f97316;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #edf2f7;
+    --t26-bg-footer: #e2e8f0;
+    --t26-bg-overlay: rgba(255, 255, 255, 0.85);
+    --t26-border-hover: #94a3b8;
+    --t26-shadow-color: rgba(0, 0, 0, 0.08);
+    --t26-text-white: #0f172a;
+    --t26-text-invert: #ffffff;
+    --t26-btn-bg: #ffffff;
+    --t26-btn-border: #cbd5e0;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: light;
+    --t26-input-bg: #ffffff;
+    --t26-input-color: #334155;
+    --t26-input-border: #cbd5e0;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #f8d7da;
+    --t26-danger-text: #842029;
+    --t26-danger-border: #f5c2c7;
+    --t26-success-bg: #d1e7dd;
+    --t26-success-text: #0f5132;
+    --t26-success-border: #badbcc;
+    --t26-warning-bg: #fff3cd;
+    --t26-warning-text: #856404;
+    --t26-warning-border: #ffeeba;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+/* --- 6. RED (LIGHT MODE) --- */
+[data-t26-theme="t26_red_light"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #ef4444;
+    --t26-primary-hover: #b91c1c;
+    --t26-bg-body: #fdf2f8;
+    --t26-bg-surface: #ffffff;
+    --t26-text-main: #334155;
+    --t26-text-muted: #64748b;
+    --t26-border-color: #f9a8d4;
+    --t26-accent-color: #ef4444;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #fce7f3;
+    --t26-bg-footer: #fbcfe8;
+    --t26-bg-overlay: rgba(255, 255, 255, 0.85);
+    --t26-border-hover: #f472b6;
+    --t26-shadow-color: rgba(0, 0, 0, 0.08);
+    --t26-text-white: #4c0519;
+    --t26-text-invert: #ffffff;
+    --t26-btn-bg: #ffffff;
+    --t26-btn-border: #f9a8d4;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: light;
+    --t26-input-bg: #ffffff;
+    --t26-input-color: #334155;
+    --t26-input-border: #cbd5e0;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #f8d7da;
+    --t26-danger-text: #842029;
+    --t26-danger-border: #f5c2c7;
+    --t26-success-bg: #d1e7dd;
+    --t26-success-text: #0f5132;
+    --t26-success-border: #badbcc;
+    --t26-warning-bg: #fff3cd;
+    --t26-warning-text: #856404;
+    --t26-warning-border: #ffeeba;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   2. DARK MODE PRESETS
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* --- 1. BLUE (DARK MODE) --- */
+[data-t26-theme="t26_blue_dark"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #7A9BDB;
+    --t26-primary-hover: #244684;
+    --t26-bg-body: #121212;
+    --t26-bg-surface: #1a1a1a;
+    --t26-text-main: #e0e0e0;
+    --t26-text-muted: #aaaaaa;
+    --t26-border-color: #333333;
+    --t26-accent-color: #7A9BDB;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #2a2a2a;
+    --t26-bg-footer: #0a0a0a;
+    --t26-bg-overlay: rgba(26, 26, 26, 0.85);
+    --t26-border-hover: #555555;
+    --t26-shadow-color: rgba(0, 0, 0, 0.5);
+    --t26-text-white: #ffffff;
+    --t26-text-invert: #121212;
+    --t26-btn-bg: #2a2a2a;
+    --t26-btn-border: #444444;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: dark;
+    --t26-input-bg: #222222;
+    --t26-input-color: #e0e0e0;
+    --t26-input-border: #444444;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #3b1619;
+    --t26-danger-text: #ff8a95;
+    --t26-danger-border: #5c1e24;
+    --t26-success-bg: #143623;
+    --t26-success-text: #75b798;
+    --t26-success-border: #1e5235;
+    --t26-warning-bg: #4d3a00;
+    --t26-warning-text: #ffda6a;
+    --t26-warning-border: #664d03;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+/* --- 2. PREMIUM GOLD (DARK MODE) --- */
+[data-t26-theme="t26_gold_dark"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #D4AF37;
+    --t26-primary-hover: #C5A017;
+    --t26-bg-body: #121212;
+    --t26-bg-surface: #1a1a1a;
+    --t26-text-main: #e0e0e0;
+    --t26-text-muted: #aaaaaa;
+    --t26-border-color: #403512;
+    --t26-accent-color: #D4AF37;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #2a2a2a;
+    --t26-bg-footer: #0a0a0a;
+    --t26-bg-overlay: rgba(26, 26, 26, 0.85);
+    --t26-border-hover: #5c4e1f;
+    --t26-shadow-color: rgba(0, 0, 0, 0.5);
+    --t26-text-white: #ffffff;
+    --t26-text-invert: #121212;
+    --t26-btn-bg: #2a2a2a;
+    --t26-btn-border: #403512;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: dark;
+    --t26-input-bg: #222222;
+    --t26-input-color: #e0e0e0;
+    --t26-input-border: #444444;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #3b1619;
+    --t26-danger-text: #ff8a95;
+    --t26-danger-border: #5c1e24;
+    --t26-success-bg: #143623;
+    --t26-success-text: #75b798;
+    --t26-success-border: #1e5235;
+    --t26-warning-bg: #4d3a00;
+    --t26-warning-text: #ffda6a;
+    --t26-warning-border: #664d03;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+/* --- 3. TOXIC GREEN (DARK MODE) --- */
+[data-t26-theme="t26_green_dark"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #00d900;
+    --t26-primary-hover: #388E3C;
+    --t26-bg-body: #121212;
+    --t26-bg-surface: #1a1a1a;
+    --t26-text-main: #e0e0e0;
+    --t26-text-muted: #aaaaaa;
+    --t26-border-color: #333333;
+    --t26-accent-color: #00d900;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #2a2a2a;
+    --t26-bg-footer: #0a0a0a;
+    --t26-bg-overlay: rgba(26, 26, 26, 0.85);
+    --t26-border-hover: #555555;
+    --t26-shadow-color: rgba(0, 217, 0, 0.1);
+    --t26-text-white: #ffffff;
+    --t26-text-invert: #121212;
+    --t26-btn-bg: #2a2a2a;
+    --t26-btn-border: #333333;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: dark;
+    --t26-input-bg: #222222;
+    --t26-input-color: #e0e0e0;
+    --t26-input-border: #444444;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #3b1619;
+    --t26-danger-text: #ff8a95;
+    --t26-danger-border: #5c1e24;
+    --t26-success-bg: #143623;
+    --t26-success-text: #75b798;
+    --t26-success-border: #1e5235;
+    --t26-warning-bg: #4d3a00;
+    --t26-warning-text: #ffda6a;
+    --t26-warning-border: #664d03;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+/* --- 4. NEON LILA (DARK MODE) --- */
+[data-t26-theme="t26_lila_dark"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #b026ff;
+    --t26-primary-hover: #d944ff;
+    --t26-bg-body: #0d0015;
+    --t26-bg-surface: #150020;
+    --t26-text-main: #e0e0e0;
+    --t26-text-muted: #aaaaaa;
+    --t26-border-color: #3d1459;
+    --t26-accent-color: #b026ff;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #200030;
+    --t26-bg-footer: #08000d;
+    --t26-bg-overlay: rgba(13, 0, 21, 0.85);
+    --t26-border-hover: #5a1e82;
+    --t26-shadow-color: rgba(176, 38, 255, 0.15);
+    --t26-text-white: #ffffff;
+    --t26-text-invert: #ffffff;
+    --t26-btn-bg: #200030;
+    --t26-btn-border: #3d1459;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: dark;
+    --t26-input-bg: #222222;
+    --t26-input-color: #e0e0e0;
+    --t26-input-border: #444444;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #3b1619;
+    --t26-danger-text: #ff8a95;
+    --t26-danger-border: #5c1e24;
+    --t26-success-bg: #143623;
+    --t26-success-text: #75b798;
+    --t26-success-border: #1e5235;
+    --t26-warning-bg: #4d3a00;
+    --t26-warning-text: #ffda6a;
+    --t26-warning-border: #664d03;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+/* --- 5. ORANGE (DARK MODE) --- */
+[data-t26-theme="t26_orange_dark"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #ffaa00;
+    --t26-primary-hover: #e69900;
+    --t26-bg-body: #121212;
+    --t26-bg-surface: #1a1a1a;
+    --t26-text-main: #e0e0e0;
+    --t26-text-muted: #aaaaaa;
+    --t26-border-color: #333333;
+    --t26-accent-color: #ffaa00;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #2a2a2a;
+    --t26-bg-footer: #0a0a0a;
+    --t26-bg-overlay: rgba(26, 26, 26, 0.85);
+    --t26-border-hover: #555555;
+    --t26-shadow-color: rgba(0, 0, 0, 0.5);
+    --t26-text-white: #ffffff;
+    --t26-text-invert: #121212;
+    --t26-btn-bg: #2a2a2a;
+    --t26-btn-border: #444444;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: dark;
+    --t26-input-bg: #222222;
+    --t26-input-color: #e0e0e0;
+    --t26-input-border: #444444;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #3b1619;
+    --t26-danger-text: #ff8a95;
+    --t26-danger-border: #5c1e24;
+    --t26-success-bg: #143623;
+    --t26-success-text: #75b798;
+    --t26-success-border: #1e5235;
+    --t26-warning-bg: #4d3a00;
+    --t26-warning-text: #ffda6a;
+    --t26-warning-border: #664d03;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+/* --- 6. RED (DARK MODE) --- */
+[data-t26-theme="t26_red_dark"] {
+    /* --- T26 CORE VARIABLEN (PFLICHT) --- */
+    --t26-primary-base: #FF6B6B;
+    --t26-primary-hover: #D32F2F;
+    --t26-bg-body: #121212;
+    --t26-bg-surface: #1a1a1a;
+    --t26-text-main: #e0e0e0;
+    --t26-text-muted: #aaaaaa;
+    --t26-border-color: #333333;
+    --t26-accent-color: #FF6B6B;
+
+    /* --- T26 ERWEITERTE VARIABLEN --- */
+    --t26-bg-lighter: #2a2a2a;
+    --t26-bg-footer: #0a0a0a;
+    --t26-bg-overlay: rgba(26, 26, 26, 0.85);
+    --t26-border-hover: #555555;
+    --t26-shadow-color: rgba(0, 0, 0, 0.5);
+    --t26-text-white: #ffffff;
+    --t26-text-invert: #121212;
+    --t26-btn-bg: #2a2a2a;
+    --t26-btn-border: #444444;
+
+    /* --- T26 FORMS & UI (NEU) --- */
+    color-scheme: dark;
+    --t26-input-bg: #222222;
+    --t26-input-color: #e0e0e0;
+    --t26-input-border: #444444;
+    --t26-input-focus: var(--t26-primary-base);
+
+    /* --- T26 STATUS & ALERTS (NEU) --- */
+    --t26-danger-bg: #3b1619;
+    --t26-danger-text: #ff8a95;
+    --t26-danger-border: #5c1e24;
+    --t26-success-bg: #143623;
+    --t26-success-text: #75b798;
+    --t26-success-border: #1e5235;
+    --t26-warning-bg: #4d3a00;
+    --t26-warning-text: #ffda6a;
+    --t26-warning-border: #664d03;
+
+    /* --- ALTES SYSTEM MAP / ABWÄRTSKOMPATIBILITÄT --- */
+    --color-base: var(--t26-bg-body);
+    --color-contrast: var(--t26-text-white);
+    --color-text: var(--t26-text-main);
+    --color-text2: var(--t26-text-muted);
+    --color-heading-text: var(--t26-text-white);
+    --color-heading-text2: var(--t26-primary-base);
+    --color-icon: var(--t26-primary-base);
+    --color-icon2: var(--t26-text-white);
+    --color-button-text: var(--t26-text-invert);
+    --color-button-text2: var(--t26-text-white);
+    --color-button-bg: var(--t26-primary-base);
+    --color-button-bg2: var(--t26-bg-lighter);
+    --color-button-bg-hover: var(--t26-primary-hover);
+    --color-shadow: var(--t26-shadow-color);
+    --color-border: var(--t26-border-color);
+    --color-border2: var(--t26-primary-base);
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   3. CUSTOM MODE FALLBACKS (SICHERHEITSNETZ FÜR DAS BACKEND)
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* --- CUSTOM LIGHT (Basis: Blue Light) --- */
+[data-t26-theme="custom_light"] {
+    --t26-bg-lighter: #edf2f7;
+    --t26-bg-footer: #e2e8f0;
+    --t26-bg-overlay: rgba(255, 255, 255, 0.85);
+    --t26-border-hover: #94a3b8;
+    --t26-shadow-color: rgba(0, 0, 0, 0.08);
+    --t26-text-white: #0f172a;
+    --t26-text-invert: #ffffff;
+    --t26-btn-bg: #ffffff;
+    --t26-btn-border: #cbd5e0;
+
+    color-scheme: light;
+    --t26-input-bg: #ffffff;
+    --t26-input-color: #334155;
+    --t26-input-border: #cbd5e0;
+    --t26-input-focus: #1a73e8;
+
+    --t26-danger-bg: #f8d7da;
+    --t26-danger-text: #842029;
+    --t26-danger-border: #f5c2c7;
+    --t26-success-bg: #d1e7dd;
+    --t26-success-text: #0f5132;
+    --t26-success-border: #badbcc;
+    --t26-warning-bg: #fff3cd;
+    --t26-warning-text: #856404;
+    --t26-warning-border: #ffeeba;
+
+    /* Abwärtskompatibilität */
+    --color-base: #f8f9fa;
+    --color-contrast: #0f172a;
+    --color-text: #334155;
+    --color-text2: #64748b;
+    --color-heading-text: #0f172a;
+    --color-heading-text2: #1a73e8;
+    --color-icon: #1a73e8;
+    --color-icon2: #ffffff;
+    --color-button-text: #ffffff;
+    --color-button-text2: #ffffff;
+    --color-button-bg: #1a73e8;
+    --color-button-bg2: #edf2f7;
+    --color-button-bg-hover: #1557b0;
+    --color-shadow: rgba(0, 0, 0, 0.08);
+    --color-border: #cbd5e0;
+    --color-border2: #1a73e8;
+}
+
+/* --- CUSTOM DARK (Basis: Blue Dark) --- */
+[data-t26-theme="custom_dark"] {
+    --t26-bg-lighter: #2a2a2a;
+    --t26-bg-footer: #0a0a0a;
+    --t26-bg-overlay: rgba(26, 26, 26, 0.85);
+    --t26-border-hover: #555555;
+    --t26-shadow-color: rgba(0, 0, 0, 0.5);
+    --t26-text-white: #ffffff;
+    --t26-text-invert: #121212;
+    --t26-btn-bg: #2a2a2a;
+    --t26-btn-border: #444444;
+
+    color-scheme: dark;
+    --t26-input-bg: #222222;
+    --t26-input-color: #e0e0e0;
+    --t26-input-border: #444444;
+    --t26-input-focus: #7A9BDB;
+
+    --t26-danger-bg: #3b1619;
+    --t26-danger-text: #ff8a95;
+    --t26-danger-border: #5c1e24;
+    --t26-success-bg: #143623;
+    --t26-success-text: #75b798;
+    --t26-success-border: #1e5235;
+    --t26-warning-bg: #4d3a00;
+    --t26-warning-text: #ffda6a;
+    --t26-warning-border: #664d03;
+
+    /* Abwärtskompatibilität */
+    --color-base: #121212;
+    --color-contrast: #ffffff;
+    --color-text: #e0e0e0;
+    --color-text2: #aaaaaa;
+    --color-heading-text: #ffffff;
+    --color-heading-text2: #7A9BDB;
+    --color-icon: #7A9BDB;
+    --color-icon2: #ffffff;
+    --color-button-text: #121212;
+    --color-button-text2: #ffffff;
+    --color-button-bg: #7A9BDB;
+    --color-button-bg2: #2a2a2a;
+    --color-button-bg-hover: #244684;
+    --color-shadow: rgba(0, 0, 0, 0.5);
+    --color-border: #333333;
+    --color-border2: #7A9BDB;
+}
