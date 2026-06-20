@@ -3,7 +3,8 @@ name: Build WBCE Module ZIP
 on:
   release:
     types: [published]
-workflow_dispatch: 
+  workflow_dispatch: # 🔥 Zwei Leerzeichen eingerückt! Gehört zu "on:"
+
 permissions:
   contents: write
 
