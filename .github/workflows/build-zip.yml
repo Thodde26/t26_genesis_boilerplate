@@ -5,8 +5,9 @@ on:
   release:
     types: [published]
 
+# 🔥 HIER IST DER WICHTIGE FIX: Wir geben dem Butler Schreibrechte!
 permissions:
-  contents: write    
+  contents: write
 
 jobs:
   build:
