@@ -14,12 +14,25 @@ jobs:
       - name: 1. Checkout Code
         uses: actions/checkout@v4
 
-      - name: 2. Flache ZIP-Struktur bauen (Narrensicher)
+      - name: 2. Die absolut flache ZIP bauen (WBCE Master-Fix)
         run: |
-          # Zippt alles flach, aber ignoriert Git-Dateien UND die eigene ZIP-Datei!
-          zip -r t26_genesis_boilerplate.zip . -x "*.git*" -x "*.github*" -x "t26_genesis_boilerplate.zip"
+          # 1. Wir bauen einen sauberen Quarantäne-Ordner
+          mkdir temp_build
+          rsync -a --exclude='.git' --exclude='.github' --exclude='temp_build' ./ temp_build/
+          
+          # 2. Wir gehen IN den Ordner
+          cd temp_build
+          
+          # 3. Wir zwingen Linux, auch versteckte Dateien zu sehen
+          shopt -s dotglob
+          
+          # 4. Der Stern (*) ist der Trick! Er nimmt NUR Dateien, keinen Ordnerkontext.
+          zip -r ../t26_genesis_boilerplate.zip *
+          
+          # 5. Zurück ins Hauptverzeichnis
+          cd ..
 
-      - name: 3. ZIP an das GitHub Release anhängen
+      - name: 3. ZIP an Release anhängen
         uses: softprops/action-gh-release@v2
         with:
           files: t26_genesis_boilerplate.zip
