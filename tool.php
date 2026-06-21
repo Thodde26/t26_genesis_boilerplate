@@ -5,7 +5,7 @@ declare(strict_types=1);
  * T26 Genesis Boilerplate - WBCE CMS
  * @author      Thodde26 (Thorsten)
  * @link        https://www.thodde26.de
- * @Version     1.1.0
+ * @Version     1.2.0
  * @file        tool.php
  * @license     http://www.gnu.org/licenses/gpl.html
  * GNU General Public License v3.0
@@ -17,10 +17,13 @@ if (!defined('WB_PATH')) {
 
 global $database, $admin, $TEXT;
 
+// 🔥 HIER IST DIE MAGIE: Der Ordnername wird automatisch ausgelesen!
+$module_dir = basename(__DIR__);
+
 // ── 1. BASIS-PFADE (DRY-Prinzip) ────────────────────────────────────────────
-$t26_boilerplate_url  = WB_URL . '/modules/t26_genesis_boilerplate';
-$t26_boilerplate_path = WB_PATH . '/modules/t26_genesis_boilerplate';
-$t26_media_url = WB_URL . '/media/t26_genesis_boilerplate/logos';
+$t26_boilerplate_url  = WB_URL . '/modules/' . $module_dir;
+$t26_boilerplate_path = WB_PATH . '/modules/' . $module_dir;
+$t26_media_url = WB_URL . '/media/' . $module_dir . '/logos';
 
 // ── 2. SPRACH-FALLBACK LADEN ────────────────────────────────────────────────
 $lang_file = $t26_boilerplate_path . '/languages/' . LANGUAGE . '.php';
@@ -35,7 +38,7 @@ echo '<link rel="stylesheet" type="text/css" href="' . $t26_boilerplate_url . '/
 echo '<script src="' . $t26_boilerplate_url . '/js/backend.js" defer></script>';
 
 // ── 4. AKTUELLE EINSTELLUNGEN AUS DER DB LADEN ──────────────────────────────
-$table_settings = TABLE_PREFIX . 'mod_t26_genesis_boilerplate_settings';
+$table_settings = TABLE_PREFIX . 'mod_' . $module_dir . '_settings'; // 🔥 Dynamische Tabelle
 
 // Standardwerte definieren
 $active_theme   = 't26_blue_light';
@@ -90,9 +93,9 @@ if ($query_settings && $query_settings->numRows() > 0) {
   }
 }
 
-// 🔥 SCHRITT 3: CORE-SYNC ÜBERSCHREIBEN (Muss NACH Schritt 1 & 2 passieren!)
+// 🔥 SCHRITT 3: CORE-SYNC ÜBERSCHREIBEN (Hier darf nichts geändert werden!)
 if ($core_sync === 1) {
-  $table_core = TABLE_PREFIX . 'mod_t26_genesis_core_settings';
+  $table_core = TABLE_PREFIX . 'mod_t26_genesis_core_settings'; // Bleibt starr auf Core gerichtet
   // Prüfen, ob die Core überhaupt installiert ist
   $check_core = $database->query("SHOW TABLES LIKE '$table_core'");
   if ($check_core && $check_core->numRows() > 0) {
@@ -164,11 +167,13 @@ foreach ($t26_hub_urls as $url) {
   $t26_hub_data = array_merge($t26_hub_data, $parsed_hub['modules']);
 }
 
-$query_core_ver = $database->query("SELECT `version` FROM `" . TABLE_PREFIX . "addons` WHERE `directory` = 't26_genesis_boilerplate'");
+// 🔥 Dynamische Abfrage der aktuellen Modul-Version
+$query_core_ver = $database->query("SELECT `version` FROM `" . TABLE_PREFIX . "addons` WHERE `directory` = '$module_dir'");
 $current_core_version = ($query_core_ver && $query_core_ver->numRows() > 0) ? $query_core_ver->fetchRow()['version'] : '1.0.0';
 
-if (isset($t26_hub_data['t26_genesis_boilerplate'])) {
-  $hub_core_version = $t26_hub_data['t26_genesis_boilerplate']['version'];
+// 🔥 Dynamische Abfrage beim Hub
+if (isset($t26_hub_data[$module_dir])) {
+  $hub_core_version = $t26_hub_data[$module_dir]['version'];
   if (version_compare($hub_core_version, $current_core_version, '>')) {
     $t26_core_update_available = $hub_core_version;
   }
@@ -179,13 +184,14 @@ if (isset($t26_hub_data['t26_genesis_boilerplate'])) {
 // ============================================================================
 $manage_module = $_GET['manage_module'] ?? '';
 
-if (!empty($manage_module) && strpos($manage_module, 't26_') === 0 && $manage_module !== 't26_genesis_boilerplate') {
+// 🔥 Dynamischer Check, damit sich das Modul nicht selbst übernimmt
+if (!empty($manage_module) && strpos($manage_module, 't26_') === 0 && $manage_module !== $module_dir) {
   $submodule_path = WB_PATH . '/modules/' . basename($manage_module) . '/tool.php';
 
   echo '<div class="t26-admin-wrapper">';
   echo '<header class="t26-admin-header" style="display:flex; justify-content:space-between; align-items:center;">';
   echo '  <div class="t26-header-title">⚙️ Verwaltung: ' . htmlspecialchars($manage_module) . '</div>';
-  echo '  <a href="' . ADMIN_URL . '/admintools/tool.php?tool=t26_genesis_boilerplate" class="t26-btn" style="background:var(--t26-bg-lighter); color:var(--t26-text-main); border:1px solid var(--t26-border-color);">' . $MOD_T26_GENESIS_BOILERPLATE['BTN_BACK'] . '</a>';
+  echo '  <a href="' . ADMIN_URL . '/admintools/tool.php?tool=' . $module_dir . '" class="t26-btn" style="background:var(--t26-bg-lighter); color:var(--t26-text-main); border:1px solid var(--t26-border-color);">' . $MOD_T26_GENESIS_BOILERPLATE['BTN_BACK'] . '</a>';
   echo '</header>';
   echo '<main class="t26-main-card" style="padding: 30px;">';
 
@@ -208,7 +214,7 @@ if ($active_theme === 'custom_light' || $active_theme === 'custom_dark') {
 
   // 🔥 NEU: Wenn Core-Sync aktiv ist, holen wir uns das Custom-Farbarray live aus der Core!
   if (isset($core_sync) && $core_sync === 1) {
-    $table_core = TABLE_PREFIX . 'mod_t26_genesis_core_settings';
+    $table_core = TABLE_PREFIX . 'mod_t26_genesis_core_settings'; // Bleibt starr auf Core
     $core_colors_name = ($active_theme === 'custom_dark') ? 'custom_dark_colors' : 'custom_light_colors';
     $query_core_colors = $database->query("SELECT `setting_value` FROM `$table_core` WHERE `setting_name` = '$core_colors_name'");
     if ($query_core_colors && $query_core_colors->numRows() > 0) {
@@ -259,10 +265,9 @@ if ($active_theme === 'custom_light' || $active_theme === 'custom_dark') {
             <span style="font-size:24px;">🚀</span>
             <div>
               <strong style="font-size:15px;"><?php echo $MOD_T26_GENESIS_BOILERPLATE['TAB_HUB_UPDATE_AVAIL']; ?></strong><br>
-              <span style="font-size:13px;">T26 Genesis Core Version <strong><?php echo htmlspecialchars($t26_core_update_available); ?></strong></span>
+              <span style="font-size:13px;">Version <strong><?php echo htmlspecialchars($t26_core_update_available); ?></strong> ist im Hub verfügbar.</span>
             </div>
           </div>
-          <button class="t26-tab-btn" data-target="tab-erweiterungen" style="background:var(--t26-warning-text); color:var(--t26-bg-body); border:none; padding:8px 15px; font-weight:bold; border-radius:4px;"><?php echo $MOD_T26_GENESIS_BOILERPLATE['WELCOME_BTN_APPSTORE']; ?></button>
         </div>
       <?php endif; ?>
 
@@ -456,7 +461,7 @@ if ($active_theme === 'custom_light' || $active_theme === 'custom_dark') {
 
         <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px;">
           <div style="background:var(--t26-bg-lighter); border:1px solid var(--t26-border-color); padding:15px; border-radius:4px;">
-            <code style="background:var(--t26-bg-surface); color:var(--t26-primary-base); padding:4px 8px; border-radius:4px; font-weight:bold; font-size:14px; display:inline-block; margin-bottom:10px;">[[T26_Genesis_Boilerplate]]</code>
+            <code style="background:var(--t26-bg-surface); color:var(--t26-primary-base); padding:4px 8px; border-radius:4px; font-weight:bold; font-size:14px; display:inline-block; margin-bottom:10px;">[[<?php echo htmlspecialchars($module_dir); ?>]]</code>
             <p style="font-size:13px; color:var(--t26-text-muted); margin:0;"><?php echo $MOD_T26_GENESIS_BOILERPLATE['DROPLET_CORE_DESC']; ?></p>
           </div>
         </div>

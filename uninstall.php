@@ -5,7 +5,7 @@ declare(strict_types=1);
  * T26 Genesis Boilerplate - WBCE CMS
  * @author      Thodde26 (Thorsten)
  * @link        https://www.thodde26.de
- * @Version     1.0.0
+ * @Version     1.2.0
  * @file        uninstall.php
  * @license     http://www.gnu.org/licenses/gpl.html
  * GNU General Public License v3.0
@@ -17,13 +17,17 @@ if (!defined('WB_PATH')) {
 
 global $database;
 
+// 🔥 HIER IST DIE MAGIE: Der Ordnername wird automatisch ausgelesen!
+$module_dir = basename(__DIR__);
+
 // ── 1. DATENBANK-TABELLE RESTLOS LÖSCHEN ────────────────────────────────────
-$table_settings = TABLE_PREFIX . 'mod_t26_genesis_boilerplate_settings';
+// Dynamische Tabellen-Erkennung
+$table_settings = TABLE_PREFIX . 'mod_' . $module_dir . '_settings';
 $database->query("DROP TABLE IF EXISTS `$table_settings`");
 
 // ── 2. DROPLETS LÖSCHEN ─────────────────────────────────────────────────────
 $table_droplets = TABLE_PREFIX . 'mod_droplets';
-$droplet_names = ['t26_genesis_boilerplate'];
+$droplet_names = [$module_dir]; // Dynamischer Droplet-Name
 
 $query_droplets_exist = $database->query("SHOW TABLES LIKE '$table_droplets'");
 if ($query_droplets_exist && $query_droplets_exist->numRows() > 0) {
@@ -34,9 +38,10 @@ if ($query_droplets_exist && $query_droplets_exist->numRows() > 0) {
 }
 
 // ── 3. MEDIA- & CSS-VERZEICHNISSE AUFRÄUMEN (SICHERER MODUS) ────────────────
-$media_dir = WB_PATH . '/media/t26_genesis_boilerplate/logos';
-$media_base_dir = WB_PATH . '/media/t26_genesis_boilerplate';
-$css_generated_dir = WB_PATH . '/modules/t26_genesis_boilerplate/css/generated';
+// Dynamische Ordner-Pfade
+$media_dir = WB_PATH . '/media/' . $module_dir . '/logos';
+$media_base_dir = WB_PATH . '/media/' . $module_dir;
+$css_generated_dir = WB_PATH . '/modules/' . $module_dir . '/css/generated';
 
 if (!function_exists('t26_safe_rmdir')) {
   function t26_safe_rmdir(string $dir, bool $deleteFiles = false): void

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * T26 Genesis Boilerplate - WBCE CMS
  * @author      Thodde26 (Thorsten)
  * @link        https://www.thodde26.de
+ * @Version     1.2.0
  * @file        upgrade.php
  * @license     http://www.gnu.org/licenses/gpl.html
  * GNU General Public License v3.0
@@ -16,7 +17,12 @@ if (!defined('WB_PATH')) {
 
 global $database;
 $msg = '';
-$table_settings = TABLE_PREFIX . 'mod_t26_genesis_boilerplate_settings';
+
+// 🔥 HIER IST DIE MAGIE: Der Ordnername wird automatisch ausgelesen!
+$module_dir = basename(__DIR__);
+
+// Dynamische Tabelle
+$table_settings = TABLE_PREFIX . 'mod_' . $module_dir . '_settings';
 
 // ── 1. SICHERUNG: TABELLE PRÜFEN & GGF. NEU ANLEGEN ─────────────────────────
 $query_check = $database->query("SHOW TABLES LIKE '$table_settings'");
@@ -78,8 +84,8 @@ if ($query_sync && $query_sync->numRows() === 0) {
 // ── 2. DROPLETS AKTUALISIEREN / NACHTRAGEN ──────────────────────────────────
 $table_droplets = TABLE_PREFIX . 'mod_droplets';
 $t26_droplets = [
-  // 🔥 HIER DAS UPDATE FÜR DIE LADELOGIK:
-  ['name' => 'T26_Genesis_Boilerplate', 'code' => 'require_once(WB_PATH . \'/modules/t26_genesis_boilerplate/include.php\'); return t26_get_frontend_assets();', 'desc' => 'Lädt die CSS/JS Assets des Frameworks (Muss in den <head> des Templates).']
+  // 🔥 HIER DAS UPDATE FÜR DIE DYNAMISCHE LADELOGIK:
+  ['name' => $module_dir, 'code' => 'require_once(WB_PATH . \'/modules/' . $module_dir . '/include.php\'); return t26_get_frontend_assets();', 'desc' => 'Lädt die CSS/JS Assets des Frameworks (Muss in den <head> des Templates).']
 ];
 
 $query_droplets_exist = $database->query("SHOW TABLES LIKE '$table_droplets'");
@@ -101,9 +107,10 @@ if ($query_droplets_exist && $query_droplets_exist->numRows() > 0) {
 }
 
 // ── 3. BENÖTIGTE VERZEICHNISSE PRÜFEN/ANLEGEN ───────────────────────────────
+// Dynamische Ordner-Pfade
 $dirs_to_check = [
-  WB_PATH . '/media/t26_genesis_boilerplate/logos',
-  WB_PATH . '/modules/t26_genesis_boilerplate/css/generated'
+  WB_PATH . '/media/' . $module_dir . '/logos',
+  WB_PATH . '/modules/' . $module_dir . '/css/generated'
 ];
 
 foreach ($dirs_to_check as $dir) {
@@ -117,5 +124,6 @@ if (empty($msg)) {
   $msg = " System ist auf dem neuesten Stand.";
 }
 echo '<div style="margin:1em 0; padding:1em; border:1px solid #148011; background:#e4fbe3;">';
-echo '<strong>T26 Genesis Boilerplate erfolgreich aktualisiert!</strong>' . $msg;
+// Dynamischer Titel in der Box
+echo '<strong>Modul \'' . htmlspecialchars($module_dir) . '\' erfolgreich aktualisiert!</strong>' . $msg;
 echo '</div>';

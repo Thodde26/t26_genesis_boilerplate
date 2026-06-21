@@ -16,8 +16,12 @@ if (!defined('WB_PATH')) {
 
 global $database;
 
+// 🔥 HIER IST DIE MAGIE: Der Ordnername wird automatisch ausgelesen!
+$module_dir = basename(__DIR__);
+
 // ── 1. DATENBANK-TABELLEN ANLEGEN ───────────────────────────────────────────
-$table_settings = TABLE_PREFIX . 'mod_t26_genesis_boilerplate_settings';
+// Dynamischer Tabellenname, z.B. "mod_t26_toolbar_settings"
+$table_settings = TABLE_PREFIX . 'mod_' . $module_dir . '_settings';
 
 $database->query("DROP TABLE IF EXISTS `$table_settings`");
 $database->query("CREATE TABLE `$table_settings` (
@@ -83,9 +87,8 @@ foreach ($defaults as $key => $val) {
 $table_droplets = TABLE_PREFIX . 'mod_droplets';
 $t26_droplets = [
   [
-    'name' => 't26_genesis_boilerplate',
-    // 🔥 HIER IST DER NEUE CODE FÜR DIE LADELOGIK:
-    'code' => 'require_once(WB_PATH . \'/modules/t26_genesis_boilerplate/include.php\'); return t26_get_frontend_assets();',
+    'name' => $module_dir, // Dynamischer Droplet-Name
+    'code' => 'require_once(WB_PATH . \'/modules/' . $module_dir . '/include.php\'); return t26_get_frontend_assets();', // Dynamischer Pfad im Code
     'desc' => 'Lädt die CSS/JS Assets des Frameworks (Muss in den <head> des Templates).'
   ]
 ];
@@ -105,11 +108,12 @@ if ($query_droplets_exist && $query_droplets_exist->numRows() > 0) {
 }
 
 // ── 4. BENÖTIGTE VERZEICHNISSE ANLEGEN ──────────────────────────────────────
-$media_dir = WB_PATH . '/media/t26_genesis_boilerplate/logos';
+// Dynamische Ordner-Pfade
+$media_dir = WB_PATH . '/media/' . $module_dir . '/logos';
 if (!is_dir($media_dir)) {
   mkdir($media_dir, 0777, true);
 }
-$css_dir = WB_PATH . '/modules/t26_genesis_boilerplate/css/generated';
+$css_dir = WB_PATH . '/modules/' . $module_dir . '/css/generated';
 if (!is_dir($css_dir)) {
   mkdir($css_dir, 0777, true);
 }
