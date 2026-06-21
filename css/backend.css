@@ -444,3 +444,11 @@ input[type="file"]::-webkit-file-upload-button {
     cursor: pointer;
     font-weight: bold;
 }
+
+/* T26 Deactivated State */
+.t26-settings-disabled {
+    opacity: 0.4;
+    pointer-events: none; /* Sperrt alle Klicks und Eingaben! */
+    filter: grayscale(80%); /* Optional: Macht es optisch noch klarer */
+    transition: all 0.3s ease-in-out;
+}

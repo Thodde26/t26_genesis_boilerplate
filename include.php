@@ -3,11 +3,11 @@
 declare(strict_types=1);
 /**
  * T26 Genesis Boilerplate - WBCE CMS
- * @author      Thodde26 (Thorsten)
- * @link        https://www.thodde26.de
- * @Version     1.1.0
- * @file        include.php
- * @license     http://www.gnu.org/licenses/gpl.html
+ * @author       Thodde26 (Thorsten)
+ * @link         https://www.thodde26.de
+ * @Version      1.1.0
+ * @file         include.php
+ * @license      http://www.gnu.org/licenses/gpl.html
  * GNU General Public License v3.0
  */
 
@@ -23,7 +23,10 @@ if (!function_exists('t26_get_boilerplate_status')) {
   function t26_get_boilerplate_status(): array
   {
     global $database;
-    $table = TABLE_PREFIX . 'mod_t26_genesis_boilerplate_settings';
+    // 🔥 DYNAMIK: Modul-Ordner und Tabellenname automatisch ermitteln
+    $module_dir = basename(__DIR__);
+    $table = TABLE_PREFIX . 'mod_' . $module_dir . '_settings';
+
     $status = ['is_active' => 1, 'core_sync' => 1];
 
     $query_check = $database->query("SHOW TABLES LIKE '$table'");
@@ -63,7 +66,9 @@ if (!function_exists('t26_get_active_theme')) {
     }
 
     // Ansonsten (wenn autark): Eigenes zugewiesenes Theme auslesen
-    $table_settings = TABLE_PREFIX . 'mod_t26_genesis_boilerplate_settings';
+    // 🔥 DYNAMIK: Tabellenname basierend auf aktuellem Ordner
+    $module_dir = basename(__DIR__);
+    $table_settings = TABLE_PREFIX . 'mod_' . $module_dir . '_settings';
     $query = $database->query("SELECT `setting_value` FROM `$table_settings` WHERE `setting_name` = 'active_theme'");
 
     if ($query && $query->numRows() > 0) {
@@ -75,11 +80,11 @@ if (!function_exists('t26_get_active_theme')) {
 }
 
 // ── 2. SMARTE ASSET-LADELOGIK (FRONTEND) ────────────────────────────────────
-if (!function_exists('t26_get_frontend_assets')) {
+if (!function_exists('t26_boilerplate_get_frontend_assets')) {
   /**
    * Generiert die <link> und <script> Tags für das Frontend.
    */
-  function t26_get_frontend_assets(): string
+  function t26_boilerplate_get_frontend_assets(): string
   {
     $status = t26_get_boilerplate_status();
 
@@ -89,12 +94,15 @@ if (!function_exists('t26_get_frontend_assets')) {
     }
 
     $active_theme = t26_get_active_theme();
+    // 🔥 DYNAMIK: Modul-Ordner ermitteln
+    $module_dir = basename(__DIR__);
 
     // 🔥 WENN CORE-SYNC AKTIV: Pfad zum Core-Verzeichnis nutzen (für Custom-CSS)
     if ($status['core_sync'] === 1) {
       $t26_base_url = WB_URL . '/modules/t26_genesis_core';
     } else {
-      $t26_base_url = WB_URL . '/modules/t26_genesis_boilerplate';
+      // DYNAMIK: Modul-Pfad basierend auf aktuellem Ordner
+      $t26_base_url = WB_URL . '/modules/' . $module_dir;
     }
 
     $output  = "\n\n";
@@ -106,7 +114,8 @@ if (!function_exists('t26_get_frontend_assets')) {
       $output .= '<link rel="stylesheet" type="text/css" href="' . $generated_file . '">' . "\n";
     } else {
       // Standard-Presets nutzen die theme_presets.css (Die liegt bei den Modulen selbst)
-      $output .= '<link rel="stylesheet" type="text/css" href="' . WB_URL . '/modules/t26_genesis_boilerplate/css/theme_presets.css">' . "\n";
+      // DYNAMIK: URL zur preset CSS basierend auf aktuellem Ordner
+      $output .= '<link rel="stylesheet" type="text/css" href="' . WB_URL . '/modules/' . $module_dir . '/css/theme_presets.css">' . "\n";
     }
 
     // B) Anti-FOUC Script (Setzt das Attribut sofort in den <html> Tag)
@@ -125,7 +134,9 @@ if (!function_exists('t26_genesis_boilerplate_api')) {
   function t26_genesis_boilerplate_api($request = '')
   {
     global $database;
-    $table = TABLE_PREFIX . 'mod_t26_genesis_boilerplate_settings';
+    // 🔥 DYNAMIK: Tabellenname basierend auf aktuellem Ordner
+    $module_dir = basename(__DIR__);
+    $table = TABLE_PREFIX . 'mod_' . $module_dir . '_settings';
 
     // 1. Prüfen, ob die Tabelle überhaupt existiert
     $query = $database->query("SHOW TABLES LIKE '$table'");

@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-// ── 2. THEME-DROPDOWN LIVE-VORSCHAU (CHAMÄLEON-MODUS) ───────────────────
+    // ── 2. THEME-DROPDOWN LIVE-VORSCHAU (CHAMÄLEON-MODUS) ───────────────────
     if (themeSelect && wrapper) {
         themeSelect.addEventListener('change', function() {
             wrapper.setAttribute('data-t26-theme', this.value);
@@ -145,12 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let cmLight, cmDark;
 
-    // Nur initialisieren, wenn das Skript auch geladen wurde
     if (lightTextarea && darkTextarea && typeof CodeMirror !== 'undefined') {
         cmLight = CodeMirror.fromTextArea(lightTextarea, { mode: "css", lineNumbers: true, theme: "default" });
         cmDark = CodeMirror.fromTextArea(darkTextarea, { mode: "css", lineNumbers: true, theme: "monokai" });
 
-        // Verhindert Darstellungsfehler beim initialen Laden
         setTimeout(() => { if (cmDark) cmDark.refresh(); }, 100);
 
         if (modeSelector) {
@@ -167,52 +165,38 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        const defaultLightCSS = `/* Standard Light-Variablen (zum Überschreiben anpassen) */\n:root {\n  --t26-primary-base: #1a73e8;\n  --t26-primary-hover: #1557b0;\n  --t26-bg-body: #f8f9fa;\n  --t26-bg-surface: #ffffff;\n  --t26-text-main: #334155;\n  --t26-text-muted: #64748b;\n  --t26-border-color: #cbd5e0;\n  --t26-accent-color: #1a73e8;\n}\n\n/* Dein eigenes CSS hier drunter: */\n.t26-wrapper {\n  /* border-radius: 12px; */\n}`;
-        const defaultDarkCSS = `/* Standard Dark-Variablen (zum Überschreiben anpassen) */\n:root[data-theme='dark'] {\n  --t26-primary-base: #7A9BDB;\n  --t26-primary-hover: #244684;\n  --t26-bg-body: #121212;\n  --t26-bg-surface: #1a1a1a;\n  --t26-text-main: #e0e0e0;\n  --t26-text-muted: #aaaaaa;\n  --t26-border-color: #333333;\n  --t26-accent-color: #7A9BDB;\n}\n\n/* Dein eigenes CSS hier drunter: */\n.t26-wrapper {\n  /* border-radius: 12px; */\n}`;
-
         if(loadDefaultsBtn) {
             loadDefaultsBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                if (confirm("Möchtest du das Skelett laden? Dein aktueller Code in diesem Fenster könnte überschrieben werden.")) {
-                    if (modeSelector.value === 'light') cmLight.setValue(defaultLightCSS);
-                    else cmDark.setValue(defaultDarkCSS);
+                const currentMode = modeSelector.value;
+                const confirmMsg = currentMode === 'light'
+                    ? "Standard-Variablen für den Light Mode laden?\nAchtung: Dein aktueller Code im Editor wird überschrieben!"
+                    : "Standard-Variablen für den Dark Mode laden?\nAchtung: Dein aktueller Code im Editor wird überschrieben!";
+
+                if (confirm(confirmMsg)) {
+                    if (currentMode === 'light') {
+                        const defaultLightCSS = `/* Standard T26 Light Mode Variablen */\n:root {\n  --t26-primary-base: #1a73e8;\n  --t26-primary-hover: #1557b0;\n  --t26-bg-body: #f8f9fa;\n  --t26-bg-surface: #ffffff;\n  --t26-text-main: #334155;\n  --t26-text-muted: #64748b;\n  --t26-border-color: #cbd5e0;\n  --t26-input-bg: #ffffff;\n  --t26-input-color: #334155;\n  --t26-input-border: #cbd5e0;\n}\n\n/* Dein eigenes Light-Mode CSS hier: */\n`;
+                        cmLight.setValue(defaultLightCSS);
+                    } else {
+                        const defaultDarkCSS = `/* Standard T26 Dark Mode Variablen */\n:root {\n  --t26-primary-base: #7A9BDB;\n  --t26-primary-hover: #244684;\n  --t26-bg-body: #121212;\n  --t26-bg-surface: #1a1a1a;\n  --t26-text-main: #e0e0e0;\n  --t26-text-muted: #aaaaaa;\n  --t26-border-color: #333333;\n  --t26-input-bg: #222222;\n  --t26-input-color: #e0e0e0;\n  --t26-input-border: #444444;\n}\n\n/* Dein eigenes Dark-Mode CSS hier: */\n`;
+                        cmDark.setValue(defaultDarkCSS);
+                    }
                 }
             });
         }
     }
-});
 
-// ── 5. STANDARD CSS LADEN (ERWEITERT TAB) ────────────────────────────────
-    const loadDefaultsBtn = document.getElementById('t26-load-defaults');
-    const modeSelector = document.getElementById('t26-css-mode-selector');
+    // ── 6. MASTER-SWITCH LOGIK (Ausgrauen bei Inaktivität) ──────────────────
+    const masterSwitch = document.getElementById('t26_is_active');
+    const disableableAreas = document.querySelectorAll('.t26-disableable-area');
 
-    if (loadDefaultsBtn && modeSelector) {
-        loadDefaultsBtn.addEventListener('click', function() {
-            const currentMode = modeSelector.value;
-            const confirmMsg = currentMode === 'light'
-                ? "Standard-Variablen für den Light Mode laden?\nAchtung: Dein aktueller Code im Editor wird überschrieben!"
-                : "Standard-Variablen für den Dark Mode laden?\nAchtung: Dein aktueller Code im Editor wird überschrieben!";
-
-            if (confirm(confirmMsg)) {
-                let defaultCSS = "";
-
-                if (currentMode === 'light') {
-                    defaultCSS = `/* Standard T26 Light Mode Variablen */\n:root {\n  --t26-primary-base: #1a73e8;\n  --t26-primary-hover: #1557b0;\n  --t26-bg-body: #f8f9fa;\n  --t26-bg-surface: #ffffff;\n  --t26-text-main: #334155;\n  --t26-text-muted: #64748b;\n  --t26-border-color: #cbd5e0;\n  --t26-input-bg: #ffffff;\n  --t26-input-color: #334155;\n  --t26-input-border: #cbd5e0;\n}\n\n/* Dein eigenes Light-Mode CSS hier: */\n\n`;
-                    const textarea = document.getElementById('t26_light_textarea');
-                    if (textarea && textarea.nextSibling && textarea.nextSibling.CodeMirror) {
-                        textarea.nextSibling.CodeMirror.setValue(defaultCSS);
-                    } else if (textarea) {
-                        textarea.value = defaultCSS;
-                    }
-                } else {
-                    defaultCSS = `/* Standard T26 Dark Mode Variablen */\n:root {\n  --t26-primary-base: #7A9BDB;\n  --t26-primary-hover: #244684;\n  --t26-bg-body: #121212;\n  --t26-bg-surface: #1a1a1a;\n  --t26-text-main: #e0e0e0;\n  --t26-text-muted: #aaaaaa;\n  --t26-border-color: #333333;\n  --t26-input-bg: #222222;\n  --t26-input-color: #e0e0e0;\n  --t26-input-border: #444444;\n}\n\n/* Dein eigenes Dark-Mode CSS hier: */\n\n`;
-                    const textarea = document.getElementById('t26_dark_textarea');
-                    if (textarea && textarea.nextSibling && textarea.nextSibling.CodeMirror) {
-                        textarea.nextSibling.CodeMirror.setValue(defaultCSS);
-                    } else if (textarea) {
-                        textarea.value = defaultCSS;
-                    }
-                }
+    if (masterSwitch && disableableAreas.length > 0) {
+        masterSwitch.addEventListener('change', (e) => {
+            if (e.target.value === "0") { // 0 = Pausiert -> Ausgrauen AN
+                disableableAreas.forEach(area => area.classList.add('t26-settings-disabled'));
+            } else { // 1 = Aktiv -> Ausgrauen AUS
+                disableableAreas.forEach(area => area.classList.remove('t26-settings-disabled'));
             }
         });
     }
+});

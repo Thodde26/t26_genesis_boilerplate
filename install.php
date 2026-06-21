@@ -85,10 +85,30 @@ foreach ($defaults as $key => $val) {
 
 // ── 3. DROPLETS INSTALLIEREN ────────────────────────────────────────────────
 $table_droplets = TABLE_PREFIX . 'mod_droplets';
+
+// 🔥 Der komplette Code für das Droplet (sauber escaped als String)
+$droplet_code = "global \$database;
+\$table = TABLE_PREFIX . 'mod_" . $module_dir . "_settings'; // Dynamischer Tabellenname
+\$query = \$database->query(\"SELECT `is_active` FROM `\$table` LIMIT 1\");
+
+if(\$query && \$query->numRows() > 0) {
+    \$settings = \$query->fetchRow();
+    // Soft-Kill-Switch: Wenn auf 0, gibt das Droplet einfach GAR NICHTS aus!
+    if(\$settings['is_active'] == 0) {
+        return '';
+    }
+}
+
+// Wenn aktiv, lade die eigentliche Funktion und füge den Text hinzu
+require_once(WB_PATH . '/modules/" . $module_dir . "/include.php');
+\$assets = t26_get_frontend_assets();
+\$mein_text = '<p>Das T26 Boilerplate Droplet funktioniert!</p>';
+return \$assets . \$mein_text;";
+
 $t26_droplets = [
   [
     'name' => $module_dir, // Dynamischer Droplet-Name
-    'code' => 'require_once(WB_PATH . \'/modules/' . $module_dir . '/include.php\'); return t26_get_frontend_assets();', // Dynamischer Pfad im Code
+    'code' => $droplet_code, // Hier übergeben wir unseren sauberen Block!
     'desc' => 'Lädt die CSS/JS Assets des Frameworks (Muss in den <head> des Templates).'
   ]
 ];

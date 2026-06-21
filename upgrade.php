@@ -3,11 +3,11 @@
 declare(strict_types=1);
 /**
  * T26 Genesis Boilerplate - WBCE CMS
- * @author      Thodde26 (Thorsten)
- * @link        https://www.thodde26.de
- * @Version     1.2.0
- * @file        upgrade.php
- * @license     http://www.gnu.org/licenses/gpl.html
+ * @author       Thodde26 (Thorsten)
+ * @link         https://www.thodde26.de
+ * @Version      1.2.0
+ * @file         upgrade.php
+ * @license      http://www.gnu.org/licenses/gpl.html
  * GNU General Public License v3.0
  */
 
@@ -83,9 +83,32 @@ if ($query_sync && $query_sync->numRows() === 0) {
 
 // ── 2. DROPLETS AKTUALISIEREN / NACHTRAGEN ──────────────────────────────────
 $table_droplets = TABLE_PREFIX . 'mod_droplets';
+
+// 🔥 HIER IST DIE GANZE MAGIE: Türsteher + Test-Text vereint für die upgrade.php
+$droplet_code = "global \$database;
+\$table = TABLE_PREFIX . 'mod_" . $module_dir . "_settings';
+\$query = \$database->query(\"SELECT `is_active` FROM `\$table` LIMIT 1\");
+
+if(\$query && \$query->numRows() > 0) {
+    \$settings = \$query->fetchRow();
+    // Soft-Kill-Switch: Wenn auf 0, gibt das Droplet einfach GAR NICHTS aus!
+    if(\$settings['is_active'] == 0) {
+        return '';
+    }
+}
+
+// Wenn aktiv, lade die Assets und hänge den Test-Text an
+require_once(WB_PATH . '/modules/" . $module_dir . "/include.php');
+\$assets = t26_get_frontend_assets();
+\$mein_text = '<p>Das T26 Boilerplate Droplet funktioniert!</p>';
+return \$assets . \$mein_text;";
+
 $t26_droplets = [
-  // 🔥 HIER DAS UPDATE FÜR DIE DYNAMISCHE LADELOGIK:
-  ['name' => $module_dir, 'code' => 'require_once(WB_PATH . \'/modules/' . $module_dir . '/include.php\'); return t26_get_frontend_assets();', 'desc' => 'Lädt die CSS/JS Assets des Frameworks (Muss in den <head> des Templates).']
+  [
+    'name' => $module_dir,
+    'code' => $droplet_code,
+    'desc' => 'Lädt die CSS/JS Assets des Frameworks (Muss in den <head> des Templates).'
+  ]
 ];
 
 $query_droplets_exist = $database->query("SHOW TABLES LIKE '$table_droplets'");
@@ -97,9 +120,11 @@ if ($query_droplets_exist && $query_droplets_exist->numRows() > 0) {
 
     $check = $database->query("SELECT * FROM `$table_droplets` WHERE `name` = '$name'");
     if ($check && $check->numRows() > 0) {
+      // Wenn das Droplet existiert, bügeln wir das Update drüber (Heilungs-Routine)
       $database->query("UPDATE `$table_droplets` SET `code` = '$code', `description` = '$desc', `modified_when` = " . time() . " WHERE `name` = '$name'");
       $msg .= "<br>• Update: Droplet '$name' aktualisiert.";
     } else {
+      // Falls es gelöscht wurde, installieren wir es neu
       $database->query("INSERT INTO `$table_droplets` (`name`, `code`, `description`, `modified_when`, `modified_by`, `active`, `admin_edit`, `admin_view`, `show_wysiwyg`, `comments`) VALUES ('$name', '$code', '$desc', " . time() . ", 1, 1, 1, 1, 1, '')");
       $msg .= "<br>• Update: Droplet '$name' neu installiert.";
     }
@@ -107,7 +132,6 @@ if ($query_droplets_exist && $query_droplets_exist->numRows() > 0) {
 }
 
 // ── 3. BENÖTIGTE VERZEICHNISSE PRÜFEN/ANLEGEN ───────────────────────────────
-// Dynamische Ordner-Pfade
 $dirs_to_check = [
   WB_PATH . '/media/' . $module_dir . '/logos',
   WB_PATH . '/modules/' . $module_dir . '/css/generated'
@@ -124,6 +148,5 @@ if (empty($msg)) {
   $msg = " System ist auf dem neuesten Stand.";
 }
 echo '<div style="margin:1em 0; padding:1em; border:1px solid #148011; background:#e4fbe3;">';
-// Dynamischer Titel in der Box
 echo '<strong>Modul \'' . htmlspecialchars($module_dir) . '\' erfolgreich aktualisiert!</strong>' . $msg;
 echo '</div>';

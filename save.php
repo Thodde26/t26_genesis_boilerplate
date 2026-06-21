@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * T26 Genesis Core - WBCE CMS
+ * T26 Genesis Boilerplate - WBCE CMS
  * @author      Thodde26 (Thorsten)
  * @link        https://www.thodde26.de
  * @Version     1.0.0

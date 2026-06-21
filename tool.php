@@ -68,6 +68,9 @@ if ($query_status && $query_status->numRows() > 0) {
   if (isset($status_data['core_sync'])) $core_sync = (int)$status_data['core_sync'];
 }
 
+// Dynamische Klasse für das Ausgrauen
+$disabled_class = ($is_active == 0) ? 't26-settings-disabled' : '';
+
 // 🔥 SCHRITT 2: Lokale Datenbank-Werte laden
 $query_settings = $database->query("SELECT `setting_name`, `setting_value` FROM `$table_settings`");
 if ($query_settings && $query_settings->numRows() > 0) {
@@ -327,7 +330,7 @@ if ($active_theme === 'custom_light' || $active_theme === 'custom_dark') {
         </div>
       </form>
 
-      <div class="t26-grid-box" style="text-align: center; padding: 40px 20px;">
+      <div class="t26-grid-box t26-disableable-area <?php echo $disabled_class; ?>" style="text-align: center; padding: 40px 20px;">
         <span style="font-size: 40px; display: block; margin-bottom: 15px;">🚧</span>
         <h3 style="margin-top: 0;">Hier entsteht dein neues Modul</h3>
         <p style="color: var(--t26-text-muted); font-size: 14px; max-width: 500px; margin: 0 auto 20px auto;">
@@ -339,7 +342,7 @@ if ($active_theme === 'custom_light' || $active_theme === 'custom_dark') {
     </div>
 
     <div class="t26-tab-content" id="tab-theme">
-      <form action="<?php echo $t26_boilerplate_url; ?>/save_tool.php" method="post" id="t26-theme-form">
+      <form action="<?php echo $t26_boilerplate_url; ?>/save_tool.php" method="post" id="t26-theme-form" class="t26-disableable-area <?php echo $disabled_class; ?>">
         <?php echo $admin->getFTAN(); ?>
         <input type="hidden" name="action" value="save_theme">
         <div class="t26-form-group">
@@ -374,7 +377,7 @@ if ($active_theme === 'custom_light' || $active_theme === 'custom_dark') {
     </div>
 
     <div class="t26-tab-content" id="tab-colors">
-      <form action="<?php echo $t26_boilerplate_url; ?>/save_tool.php" method="post" id="t26-colors-form">
+      <form action="<?php echo $t26_boilerplate_url; ?>/save_tool.php" method="post" id="t26-colors-form" class="t26-disableable-area <?php echo $disabled_class; ?>">
         <?php echo $admin->getFTAN(); ?>
         <input type="hidden" name="action" value="save_colors">
         <input type="hidden" name="active_theme" class="t26-hidden-theme-field" value="<?php echo htmlspecialchars($active_theme); ?>">
@@ -409,7 +412,7 @@ if ($active_theme === 'custom_light' || $active_theme === 'custom_dark') {
     </div>
 
     <div class="t26-tab-content" id="tab-erweitert">
-      <form action="<?php echo $t26_boilerplate_url; ?>/save_tool.php" method="post" id="t26-advanced-form">
+      <form action="<?php echo $t26_boilerplate_url; ?>/save_tool.php" method="post" id="t26-advanced-form" class="t26-disableable-area <?php echo $disabled_class; ?>">
         <?php echo $admin->getFTAN(); ?>
         <input type="hidden" name="action" value="save_advanced">
         <input type="hidden" name="active_theme" class="t26-hidden-theme-field" value="<?php echo htmlspecialchars($active_theme); ?>">
@@ -455,7 +458,7 @@ if ($active_theme === 'custom_light' || $active_theme === 'custom_dark') {
     </div>
 
     <div class="t26-tab-content" id="tab-droplets">
-      <div class="t26-grid-box">
+      <div class="t26-grid-box t26-disableable-area <?php echo $disabled_class; ?>">
         <h3 style="margin-top:0; border-bottom:2px solid var(--t26-border-color); padding-bottom:10px; margin-bottom:20px; font-size:20px;"><?php echo $MOD_T26_GENESIS_BOILERPLATE['TAB_DROPLETS_TITLE']; ?></h3>
         <p style="font-size:14px; color:var(--t26-text-muted); margin-bottom:20px;"><?php echo $MOD_T26_GENESIS_BOILERPLATE['TAB_DROPLETS_DESC']; ?></p>
 
