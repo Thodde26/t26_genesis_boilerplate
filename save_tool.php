@@ -5,7 +5,7 @@ declare(strict_types=1);
  * T26 Genesis Boilerplate - WBCE CMS
  * @author      Thodde26 (Thorsten)
  * @link        https://www.thodde26.de
- * @Version     1.2.0
+ * @Version     1.1.0
  * @file        save_tool.php
  * @license     http://www.gnu.org/licenses/gpl.html
  * GNU General Public License v3.0
@@ -16,12 +16,8 @@ require_once(WB_PATH . '/framework/class.admin.php');
 
 $admin = new admin('admintools', 'admintools');
 
-// 🔥 HIER IST DIE MAGIE: Der Ordnername wird automatisch ausgelesen!
-$module_dir = basename(__DIR__);
-
 // ── 1. SPRACH-FALLBACK LADEN (NEU FÜR I18N) ─────────────────────────────────
-// Dynamischer Pfad zur Sprachdatei
-$t26_boilerplate_path = WB_PATH . '/modules/' . $module_dir;
+$t26_boilerplate_path = WB_PATH . '/modules/t26_genesis_boilerplate';
 $lang_file = $t26_boilerplate_path . '/languages/' . LANGUAGE . '.php';
 if (!file_exists($lang_file)) {
   $lang_file = $t26_boilerplate_path . '/languages/DE.php';
@@ -35,24 +31,9 @@ if (!$admin->checkFTAN()) {
 }
 
 global $database;
-// Dynamische Tabelle
-$table_settings = TABLE_PREFIX . 'mod_' . $module_dir . '_settings';
+$table_settings = TABLE_PREFIX . 'mod_t26_genesis_boilerplate_settings';
 $action         = $_POST['action'] ?? '';
 
-// ... Sicherheits-Checks (FTAN) ...
-require_once(WB_PATH . '/modules/t26_genesis_core/class.t26_helper.php');
-
-$data = [
-  'active_theme' => $_POST['active_theme'],
-  'nav_menu_header' => $_POST['nav_menu_header']
-];
-
-// Validierung (einfach & sicher)
-if (T26_Helper::save_settings('t26_slider', $data)) {
-  $admin->print_success('Gespeichert!');
-} else {
-  $admin->print_error('Fehler beim Speichern');
-}
 // ============================================================================
 // STATUS SPEICHERN (SOFT-KILL-SWITCH)
 // ============================================================================
@@ -63,8 +44,7 @@ if ($action === 'save_status') {
 
     $database->query("UPDATE `$table_settings` SET `is_active` = $is_active_val, `core_sync` = $core_sync_val");
   }
-  // Dynamischer Zurück-Link
-  $admin->print_success($MOD_T26_GENESIS_BOILERPLATE['SAVE_SUCCESS'], ADMIN_URL . '/admintools/tool.php?tool=' . $module_dir);
+  $admin->print_success($MOD_T26_GENESIS_BOILERPLATE['SAVE_SUCCESS'], ADMIN_URL . '/admintools/tool.php?tool=t26_genesis_boilerplate');
 }
 // ============================================================================
 // THEME SPEICHERN
@@ -99,8 +79,8 @@ elseif ($action === 'save_theme') {
   // In die Datenbank schreiben
   $database->query("UPDATE `$table_settings` SET `setting_value` = '$safe_theme' WHERE `setting_name` = 'active_theme'");
 
-  // Dynamischer Zurück-Link
-  $admin->print_success($MOD_T26_GENESIS_BOILERPLATE['SAVE_SUCCESS'], ADMIN_URL . '/admintools/tool.php?tool=' . $module_dir);
+  // Zurück zum UI leiten
+  $admin->print_success($MOD_T26_GENESIS_BOILERPLATE['SAVE_SUCCESS'], ADMIN_URL . '/admintools/tool.php?tool=t26_genesis_boilerplate');
 }
 
 // ============================================================================
@@ -179,21 +159,20 @@ if ($action === 'save_colors' || $action === 'save_advanced') {
   $db_dark_css  = str_ireplace(['<?php', '<?', '?>', '<script', '</script>'], '', $db_dark_css);
 
   // Generierung Custom Light Mode
-  $css_light_content  = "/* T26 GENESIS Module - GENERATED CUSTOM LIGHT MODE */\n[data-t26-theme=\"custom_light\"] {\n";
+  $css_light_content  = "/* T26 GENESIS Boilerplate - GENERATED CUSTOM LIGHT MODE */\n[data-t26-theme=\"custom_light\"] {\n";
   foreach ($db_light_colors as $key => $hex) {
     $css_light_content .= "  --t26-" . str_replace('_', '-', $key) . ": " . htmlspecialchars($hex) . ";\n";
   }
   $css_light_content .= "}\n\n/* --- Custom Light User CSS --- */\n" . $db_light_css;
 
   // Generierung Custom Dark Mode
-  $css_dark_content  = "/* T26 GENESIS Module - GENERATED CUSTOM DARK MODE */\n[data-t26-theme=\"custom_dark\"] {\n";
+  $css_dark_content  = "/* T26 GENESIS Boilerplate - GENERATED CUSTOM DARK MODE */\n[data-t26-theme=\"custom_dark\"] {\n";
   foreach ($db_dark_colors as $key => $hex) {
     $css_dark_content .= "  --t26-" . str_replace('_', '-', $key) . ": " . htmlspecialchars($hex) . ";\n";
   }
   $css_dark_content .= "}\n\n/* --- Custom Dark User CSS --- */\n" . $db_dark_css;
 
-  // Dynamischer CSS-Ordner
-  $css_dir = WB_PATH . '/modules/' . $module_dir . '/css/generated';
+  $css_dir = WB_PATH . '/modules/t26_genesis_boilerplate/css/generated';
   if (!is_dir($css_dir)) {
     mkdir($css_dir, 0777, true);
   }
@@ -201,7 +180,6 @@ if ($action === 'save_colors' || $action === 'save_advanced') {
   file_put_contents($css_dir . '/custom_dark.css', $css_dark_content);
 }
 // ── 3. ZURÜCKLEITEN MIT ERFOLGSMELDUNG (MIT SPRACHVARIABLE) ─────────────────
-// Dynamischer Zurück-Link
-$admin->print_success($MOD_T26_GENESIS_BOILERPLATE['SAVE_SUCCESS'], ADMIN_URL . '/admintools/tool.php?tool=' . $module_dir);
+$admin->print_success($MOD_T26_GENESIS_BOILERPLATE['SAVE_SUCCESS'], ADMIN_URL . '/admintools/tool.php?tool=t26_genesis_boilerplate');
 
 $admin->print_footer();
