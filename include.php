@@ -15,12 +15,12 @@ if (!defined('WB_PATH')) {
   die('Cannot access this file directly');
 }
 
-// ── 0. SMART STATUS CHECK (NEU) ─────────────────────────────────────────────
-if (!function_exists('t26_get_boilerplate_status')) {
+// ── 0. SMART STATUS CHECK ─────────────────────────────────────────────
+if (!function_exists('t26_boilerplate_get_boilerplate_status')) {
   /**
    * Holt die globalen Schalter (Aktivierungsstatus & Core-Sync) des Moduls.
    */
-  function t26_get_boilerplate_status(): array
+  function t26_boilerplate_get_boilerplate_status(): array
   {
     global $database;
     // 🔥 DYNAMIK: Modul-Ordner und Tabellenname automatisch ermitteln
@@ -43,17 +43,18 @@ if (!function_exists('t26_get_boilerplate_status')) {
 }
 
 // ── 1. THEME AUSLESEN ───────────────────────────────────────────────────────
-if (!function_exists('t26_get_active_theme')) {
+if (!function_exists('t26_boilerplate_get_active_theme')) {
   /**
    * Liest das aktuell aktive T26 Genesis Theme aus.
    * Berücksichtigt die Vererbung (core_sync) aus dem Core-Framework.
    */
-  function t26_get_active_theme(): string
+  function t26_boilerplate_get_active_theme(): string
   {
     global $database;
-    $status = t26_get_boilerplate_status();
+    // 🔥 FIX: Korrekter Funktionsaufruf
+    $status = t26_boilerplate_get_boilerplate_status();
 
-    // 🔥 WENN CORE-SYNC AKTIV: Theme direkt aus der Core-Tabelle erben!
+    // WENN CORE-SYNC AKTIV: Theme direkt aus der Core-Tabelle erben!
     if ($status['core_sync'] === 1) {
       $table_core = TABLE_PREFIX . 'mod_t26_genesis_core_settings';
       $query_core = $database->query("SHOW TABLES LIKE '$table_core'");
@@ -66,7 +67,6 @@ if (!function_exists('t26_get_active_theme')) {
     }
 
     // Ansonsten (wenn autark): Eigenes zugewiesenes Theme auslesen
-    // 🔥 DYNAMIK: Tabellenname basierend auf aktuellem Ordner
     $module_dir = basename(__DIR__);
     $table_settings = TABLE_PREFIX . 'mod_' . $module_dir . '_settings';
     $query = $database->query("SELECT `setting_value` FROM `$table_settings` WHERE `setting_name` = 'active_theme'");
@@ -86,22 +86,21 @@ if (!function_exists('t26_boilerplate_get_frontend_assets')) {
    */
   function t26_boilerplate_get_frontend_assets(): string
   {
-    $status = t26_get_boilerplate_status();
+    // 🔥 FIX: Korrekter Funktionsaufruf
+    $status = t26_boilerplate_get_boilerplate_status();
 
     // Soft-Kill-Switch: Wenn das Modul pausiert ist, absolut gar nichts ins Frontend laden!
     if ($status['is_active'] === 0) {
       return '';
     }
 
-    $active_theme = t26_get_active_theme();
-    // 🔥 DYNAMIK: Modul-Ordner ermitteln
+    $active_theme = t26_boilerplate_get_active_theme();
     $module_dir = basename(__DIR__);
 
-    // 🔥 WENN CORE-SYNC AKTIV: Pfad zum Core-Verzeichnis nutzen (für Custom-CSS)
+    // WENN CORE-SYNC AKTIV: Pfad zum Core-Verzeichnis nutzen (für Custom-CSS)
     if ($status['core_sync'] === 1) {
       $t26_base_url = WB_URL . '/modules/t26_genesis_core';
     } else {
-      // DYNAMIK: Modul-Pfad basierend auf aktuellem Ordner
       $t26_base_url = WB_URL . '/modules/' . $module_dir;
     }
 
@@ -109,16 +108,13 @@ if (!function_exists('t26_boilerplate_get_frontend_assets')) {
 
     // A) CSS intelligent laden
     if (strpos($active_theme, 'custom_') === 0) {
-      // Lade die generierte Datei aus dem korrekten generated/ Ordner (Core oder lokal)
       $generated_file = $t26_base_url . '/css/generated/' . $active_theme . '.css';
       $output .= '<link rel="stylesheet" type="text/css" href="' . $generated_file . '">' . "\n";
     } else {
-      // Standard-Presets nutzen die theme_presets.css (Die liegt bei den Modulen selbst)
-      // DYNAMIK: URL zur preset CSS basierend auf aktuellem Ordner
       $output .= '<link rel="stylesheet" type="text/css" href="' . WB_URL . '/modules/' . $module_dir . '/css/theme_presets.css">' . "\n";
     }
 
-    // B) Anti-FOUC Script (Setzt das Attribut sofort in den <html> Tag)
+    // B) Anti-FOUC Script
     $output .= '<script>document.documentElement.setAttribute("data-t26-theme", "' . htmlspecialchars($active_theme) . '");</script>' . "\n";
     $output .= "\n";
 
@@ -128,38 +124,32 @@ if (!function_exists('t26_boilerplate_get_frontend_assets')) {
 
 /**
  * T26 Genesis Boilerplate API
- * Ermöglicht die Kommunikation mit anderen T26-Modulen (z.B. Toolbar, Dark Mode)
  */
 if (!function_exists('t26_genesis_boilerplate_api')) {
   function t26_genesis_boilerplate_api($request = '')
   {
     global $database;
-    // 🔥 DYNAMIK: Tabellenname basierend auf aktuellem Ordner
     $module_dir = basename(__DIR__);
     $table = TABLE_PREFIX . 'mod_' . $module_dir . '_settings';
 
-    // 1. Prüfen, ob die Tabelle überhaupt existiert
     $query = $database->query("SHOW TABLES LIKE '$table'");
     if ($query->numRows() == 0) {
-      return false; // Modul nicht installiert
+      return false;
     }
 
-    // 2. Status abfragen
     $settings = $database->query("SELECT * FROM `$table` LIMIT 1");
     if ($settings->numRows() > 0) {
       $data = $settings->fetchRow();
 
-      // Wenn das Modul deaktiviert ist (is_active = 0), API-Antwort sofort abbrechen
       if (isset($data['is_active']) && $data['is_active'] == 0) {
         return false;
       }
 
-      // 3. API-Antworten basierend auf dem Request
       if ($request === 'status') {
-        return true; // "Ja, ich bin da und aktiv!"
+        return true;
       }
       if ($request === 'get_settings') {
-        return $data; // Gibt alle Theme-Farben etc. zurück
+        return $data;
       }
     }
 

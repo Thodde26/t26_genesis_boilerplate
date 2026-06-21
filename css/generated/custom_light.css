@@ -1,8 +1,8 @@
-/* T26 GENESIS Boilerplate - GENERATED CUSTOM LIGHT MODE */
+/* T26 GENESIS Module - GENERATED CUSTOM LIGHT MODE */
 [data-t26-theme="custom_light"] {
   --t26-primary-base: #1a73e8;
   --t26-primary-hover: #1557b0;
-  --t26-bg-body: #606971;
+  --t26-bg-body: #2c7ac9;
   --t26-bg-surface: #ffffff;
   --t26-text-main: #334155;
   --t26-text-muted: #64748b;
@@ -11,4 +11,3 @@
 }
 
 /* --- Custom Light User CSS --- */
-/*TEST 1*/

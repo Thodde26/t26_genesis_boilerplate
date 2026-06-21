@@ -99,7 +99,7 @@ if(\$query && \$query->numRows() > 0) {
 
 // Wenn aktiv, lade die Assets und hänge den Test-Text an
 require_once(WB_PATH . '/modules/" . $module_dir . "/include.php');
-\$assets = t26_get_frontend_assets();
+\$assets = t26_boilerplate_get_frontend_assets();
 \$mein_text = '<p>Das T26 Boilerplate Droplet funktioniert!</p>';
 return \$assets . \$mein_text;";
 

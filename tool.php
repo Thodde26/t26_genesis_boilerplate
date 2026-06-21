@@ -3,11 +3,11 @@
 declare(strict_types=1);
 /**
  * T26 Genesis Boilerplate - WBCE CMS
- * @author      Thodde26 (Thorsten)
- * @link        https://www.thodde26.de
- * @Version     1.2.0
- * @file        tool.php
- * @license     http://www.gnu.org/licenses/gpl.html
+ * @author       Thodde26 (Thorsten)
+ * @link         https://www.thodde26.de
+ * @Version      1.2.0
+ * @file         tool.php
+ * @license      http://www.gnu.org/licenses/gpl.html
  * GNU General Public License v3.0
  */
 
@@ -38,7 +38,7 @@ echo '<link rel="stylesheet" type="text/css" href="' . $t26_boilerplate_url . '/
 echo '<script src="' . $t26_boilerplate_url . '/js/backend.js" defer></script>';
 
 // ── 4. AKTUELLE EINSTELLUNGEN AUS DER DB LADEN ──────────────────────────────
-$table_settings = TABLE_PREFIX . 'mod_' . $module_dir . '_settings'; // 🔥 Dynamische Tabelle
+$table_settings = TABLE_PREFIX . 'mod_' . $module_dir . '_settings';
 
 // Standardwerte definieren
 $active_theme   = 't26_blue_light';
@@ -58,7 +58,7 @@ $nav_menu_sidebar_right = '2';
 $nav_menu_footer        = '2';
 $footer_copyright = '';
 
-// 🔥 SCHRITT 1: Zuerst den Status holen, damit das Skript weiß, ob der Sync an ist!
+// 🔥 SCHRITT 1: Status holen
 $is_active = 1;
 $core_sync = 1;
 $query_status = $database->query("SELECT `is_active`, `core_sync` FROM `$table_settings` LIMIT 1");
@@ -68,7 +68,6 @@ if ($query_status && $query_status->numRows() > 0) {
   if (isset($status_data['core_sync'])) $core_sync = (int)$status_data['core_sync'];
 }
 
-// Dynamische Klasse für das Ausgrauen
 $disabled_class = ($is_active == 0) ? 't26-settings-disabled' : '';
 
 // 🔥 SCHRITT 2: Lokale Datenbank-Werte laden
@@ -96,13 +95,11 @@ if ($query_settings && $query_settings->numRows() > 0) {
   }
 }
 
-// 🔥 SCHRITT 3: CORE-SYNC ÜBERSCHREIBEN (Hier darf nichts geändert werden!)
+// 🔥 SCHRITT 3: CORE-SYNC ÜBERSCHREIBEN
 if ($core_sync === 1) {
-  $table_core = TABLE_PREFIX . 'mod_t26_genesis_core_settings'; // Bleibt starr auf Core gerichtet
-  // Prüfen, ob die Core überhaupt installiert ist
+  $table_core = TABLE_PREFIX . 'mod_t26_genesis_core_settings';
   $check_core = $database->query("SHOW TABLES LIKE '$table_core'");
   if ($check_core && $check_core->numRows() > 0) {
-    // Theme und Custom-CSS aus der Core holen
     $query_core_data = $database->query("SELECT `setting_name`, `setting_value` FROM `$table_core` WHERE `setting_name` IN ('active_theme', 'custom_light_css', 'custom_dark_css')");
     if ($query_core_data && $query_core_data->numRows() > 0) {
       while ($c_row = $query_core_data->fetchRow()) {
@@ -114,7 +111,6 @@ if ($core_sync === 1) {
   }
 }
 
-// Farben parsen
 $lightColorsArr = json_decode($custom_light_colors, true) ?? [];
 $darkColorsArr  = json_decode($custom_dark_colors, true) ?? [];
 
@@ -128,86 +124,6 @@ $color_keys = [
   'border_color'  => 'Border Color',
   'accent_color'  => 'Accent Color'
 ];
-
-// ── 5. T26 GENESIS HUB & CUSTOM REPOS (UPDATE-SCANNER) ──────────────────────
-$custom_repositories = '';
-$query_repos = $database->query("SELECT `setting_value` FROM `$table_settings` WHERE `setting_name` = 'custom_repositories'");
-if ($query_repos && $query_repos->numRows() > 0) {
-  $custom_repositories = $query_repos->fetchRow()['setting_value'];
-}
-$custom_repos_arr = json_decode($custom_repositories, true) ?? [];
-
-$t26_hub_urls = ['https://raw.githubusercontent.com/Thodde26/t26-genesis-hub/refs/heads/main/t26_modules.json'];
-$t26_hub_urls = array_merge($t26_hub_urls, $custom_repos_arr);
-
-$t26_hub_data = [];
-$t26_hub_errors = [];
-$t26_core_update_available = false;
-
-$ctx = stream_context_create(['http' => ['timeout' => 3]]);
-
-foreach ($t26_hub_urls as $url) {
-  $clean_url = trim($url);
-  if (empty($clean_url)) continue;
-
-  $hub_json = @file_get_contents($clean_url, false, $ctx);
-  if ($hub_json === false) {
-    $t26_hub_errors[] = "Verbindung fehlgeschlagen: <strong>" . htmlspecialchars($clean_url) . "</strong>";
-    continue;
-  }
-
-  $parsed_hub = json_decode($hub_json, true);
-  if (json_last_error() !== JSON_ERROR_NONE) {
-    $t26_hub_errors[] = "Ungültiges JSON-Format in: <strong>" . htmlspecialchars($clean_url) . "</strong>";
-    continue;
-  }
-
-  if (!isset($parsed_hub['modules']) || !is_array($parsed_hub['modules'])) {
-    $t26_hub_errors[] = "Fehlender 'modules' Knoten in: <strong>" . htmlspecialchars($clean_url) . "</strong>";
-    continue;
-  }
-
-  $t26_hub_data = array_merge($t26_hub_data, $parsed_hub['modules']);
-}
-
-// 🔥 Dynamische Abfrage der aktuellen Modul-Version
-$query_core_ver = $database->query("SELECT `version` FROM `" . TABLE_PREFIX . "addons` WHERE `directory` = '$module_dir'");
-$current_core_version = ($query_core_ver && $query_core_ver->numRows() > 0) ? $query_core_ver->fetchRow()['version'] : '1.0.0';
-
-// 🔥 Dynamische Abfrage beim Hub
-if (isset($t26_hub_data[$module_dir])) {
-  $hub_core_version = $t26_hub_data[$module_dir]['version'];
-  if (version_compare($hub_core_version, $current_core_version, '>')) {
-    $t26_core_update_available = $hub_core_version;
-  }
-}
-
-// ============================================================================
-// 🎯 TAKEOVER LOGIK
-// ============================================================================
-$manage_module = $_GET['manage_module'] ?? '';
-
-// 🔥 Dynamischer Check, damit sich das Modul nicht selbst übernimmt
-if (!empty($manage_module) && strpos($manage_module, 't26_') === 0 && $manage_module !== $module_dir) {
-  $submodule_path = WB_PATH . '/modules/' . basename($manage_module) . '/tool.php';
-
-  echo '<div class="t26-admin-wrapper">';
-  echo '<header class="t26-admin-header" style="display:flex; justify-content:space-between; align-items:center;">';
-  echo '  <div class="t26-header-title">⚙️ Verwaltung: ' . htmlspecialchars($manage_module) . '</div>';
-  echo '  <a href="' . ADMIN_URL . '/admintools/tool.php?tool=' . $module_dir . '" class="t26-btn" style="background:var(--t26-bg-lighter); color:var(--t26-text-main); border:1px solid var(--t26-border-color);">' . $MOD_T26_GENESIS_BOILERPLATE['BTN_BACK'] . '</a>';
-  echo '</header>';
-  echo '<main class="t26-main-card" style="padding: 30px;">';
-
-  if (file_exists($submodule_path)) {
-    require($submodule_path);
-  } else {
-    echo '<div class="t26-alert t26-alert-warning">' . $MOD_T26_GENESIS_BOILERPLATE['MODULE_NO_UI'] . ' <strong>' . htmlspecialchars($manage_module) . '</strong></div>';
-  }
-
-  echo '</main></div>';
-  return;
-}
-// ============================================================================
 ?>
 
 <?php
@@ -215,9 +131,8 @@ $custom_inline_css = '';
 if ($active_theme === 'custom_light' || $active_theme === 'custom_dark') {
   $custom_inline_css .= '#t26-live-wrapper {';
 
-  // 🔥 NEU: Wenn Core-Sync aktiv ist, holen wir uns das Custom-Farbarray live aus der Core!
   if (isset($core_sync) && $core_sync === 1) {
-    $table_core = TABLE_PREFIX . 'mod_t26_genesis_core_settings'; // Bleibt starr auf Core
+    $table_core = TABLE_PREFIX . 'mod_t26_genesis_core_settings';
     $core_colors_name = ($active_theme === 'custom_dark') ? 'custom_dark_colors' : 'custom_light_colors';
     $query_core_colors = $database->query("SELECT `setting_value` FROM `$table_core` WHERE `setting_name` = '$core_colors_name'");
     if ($query_core_colors && $query_core_colors->numRows() > 0) {
@@ -231,7 +146,6 @@ if ($active_theme === 'custom_light' || $active_theme === 'custom_dark') {
   }
 
   foreach ($active_colors_arr as $k => $v) {
-    // 🔥 SICHERHEIT 101%: Auch die Keys aus dem JSON escapen!
     $css_var = '--t26-' . htmlspecialchars(str_replace('_', '-', (string)$k));
     $custom_inline_css .= $css_var . ': ' . htmlspecialchars((string)$v) . '; ';
   }
@@ -261,18 +175,6 @@ if ($active_theme === 'custom_light' || $active_theme === 'custom_dark') {
       <div class="t26-welcome-banner">
         <?php echo $MOD_T26_GENESIS_BOILERPLATE['WELCOME_HEAD']; ?>
       </div>
-
-      <?php if ($t26_core_update_available): ?>
-        <div class="t26-alert t26-alert-warning" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <span style="font-size:24px;">🚀</span>
-            <div>
-              <strong style="font-size:15px;"><?php echo $MOD_T26_GENESIS_BOILERPLATE['TAB_HUB_UPDATE_AVAIL']; ?></strong><br>
-              <span style="font-size:13px;">Version <strong><?php echo htmlspecialchars($t26_core_update_available); ?></strong> ist im Hub verfügbar.</span>
-            </div>
-          </div>
-        </div>
-      <?php endif; ?>
 
       <p class="t26-welcome-text"><?php echo $MOD_T26_GENESIS_BOILERPLATE['WELCOME_TEXT']; ?></p>
       <div class="t26-grid-container">
